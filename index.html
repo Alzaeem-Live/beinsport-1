@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
   <title>اون تايم سبورت 2 on time sport</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <link rel="stylesheet" href="https://vjs.zencdn.net/7.20.3/video-js.css" />
   <style>
     :root {
       --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
@@ -68,7 +68,7 @@
       height: 100%;
     }
 
-    video, .plyr__video-embed {
+    .video-js {
       width: 100% !important;
       height: 100% !important;
       background: #000;
@@ -95,7 +95,7 @@
         height: calc(100vh - 160px); /* مساحة إضافية للقائمة */
       }
 
-      video, .plyr__video-embed {
+      .video-js {
         height: 100% !important;
       }
     }
@@ -112,60 +112,64 @@
 
   <div class="albaplayer_server-body">
     <div id="player-container">
-      <video id="player" playsinline controls></video>
+      <video
+        id="my-video"
+        class="video-js"
+        controls
+        preload="auto"
+        data-setup="{}"
+      ></video>
     </div>
   </div>
 
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <script src="https://unpkg.com/@videojs/http-streaming@3.3.0/dist/videojs-http-streaming.min.js"></script>
   <script>
-    const playerContainer = document.getElementById("player-container");
-    let plyr;
-    let hls;
+    let player;
 
-    function loadHLS(url) {
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
-      if (plyr) {
-        plyr.destroy();
+    function loadStream(url) {
+      if (player) {
+        player.dispose(); // Dispose of the existing player instance
       }
 
-      playerContainer.innerHTML = '<video id="player" playsinline controls></video>';
-      const video = document.getElementById("player");
-      plyr = new Plyr(video);
+      // Create a new video element for the player
+      const playerContainer = document.getElementById('player-container');
+      playerContainer.innerHTML = `
+        <video
+          id="my-video"
+          class="video-js"
+          controls
+          preload="auto"
+          data-setup="{}"
+        ></video>
+      `;
 
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = url;
-        video.addEventListener("loadedmetadata", () => video.play());
-      } else {
-        alert("عذراً، المتصفح لا يدعم تشغيل البث المباشر.");
-      }
+      player = videojs('my-video', {}, function() {
+        this.src({
+          src: url,
+          type: 'application/x-mpegURL'
+        });
+        this.play();
+      });
     }
 
-    // تحميل البث الأول تلقائياً
+    // Load the first stream automatically
     const firstBtn = document.querySelector(".albaplayer_name a.active");
     if (firstBtn) {
-      loadHLS(firstBtn.getAttribute("data-stream"));
+      loadStream(firstBtn.getAttribute("data-stream"));
     }
 
-    // التعامل مع الأزرار
+    // Handle button clicks
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
       btn.addEventListener("click", e => {
         e.preventDefault();
         document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
         btn.classList.add("active");
-        loadHLS(btn.getAttribute("data-stream"));
+        loadStream(btn.getAttribute("data-stream"));
       });
     });
 
-    // إضافة كلاس حسب نوع الجهاز
+    // Add device class
     function detectDevice() {
       const ua = navigator.userAgent;
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
