@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-  <title>اون تايم 2 on time sport</title>
+  <title>اون تايم سبورت 2 on time sport</title>
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <style>
     :root {
@@ -19,7 +19,7 @@
       position: relative;
       width: 100%;
       background: #000;
-      height: 100vh;
+      height: calc(100vh - 60px);
       overflow: hidden;
     }
     .albaplayer_name {
@@ -58,47 +58,12 @@
     }
     #player-container {
       width: 100%;
-      height: calc(100% - 50px);
+      height: 100%;
     }
     video, .plyr__video-embed {
       width: 100% !important;
       height: 100% !important;
-      object-fit: cover;
       background: #000;
-    }
-
-    /* أزرار المشاركة والتحديث والاشتراك */
-    .extra-buttons {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1000;
-    }
-    .extra-buttons button {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s;
-    }
-    .extra-buttons button:hover {
-      background: rgba(255, 255, 255, 0.35);
-    }
-    @media (max-width: 600px) {
-      .extra-buttons {
-        right: 10px;
-        bottom: 10px;
-      }
-      .extra-buttons button {
-        font-size: 12px;
-        padding: 6px 10px;
-      }
     }
   </style>
 </head>
@@ -108,19 +73,12 @@
   <ul class="albaplayer_name">
     <li><a href="#" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
     <li><a href="#" data-stream="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8">بث 2</a></li>
-    <li><a href="#" data-stream="https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8">بث 3</a></li>
+    <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
   </ul>
 
   <div class="albaplayer_server-body">
     <div id="player-container">
       <video id="player" playsinline controls></video>
-
-      <!-- ✅ أزرار المشاركة والتحديث والاشتراك -->
-      <div class="extra-buttons">
-        <button onclick="refreshStream()">🔄 تحديث البث</button>
-        <button onclick="copyLink()">🔗 مشاركة الرابط</button>
-        <button onclick="subscribeTelegram()">📣 قناة تيليجرام</button>
-      </div>
     </div>
   </div>
 
@@ -130,10 +88,8 @@
     const playerContainer = document.getElementById("player-container");
     let plyr;
     let hls;
-    let currentStream = '';
 
     function loadHLS(url) {
-      currentStream = url;
       if (hls) {
         hls.destroy();
         hls = null;
@@ -142,13 +98,8 @@
         plyr.destroy();
       }
 
-      playerContainer.querySelector("video")?.remove();
-      const video = document.createElement("video");
-      video.id = "player";
-      video.setAttribute("playsinline", "");
-      video.setAttribute("controls", "");
-      playerContainer.insertBefore(video, document.querySelector(".extra-buttons"));
-
+      playerContainer.innerHTML = '<video id="player" playsinline controls></video>';
+      const video = document.getElementById("player");
       plyr = new Plyr(video);
 
       if (Hls.isSupported()) {
@@ -164,13 +115,13 @@
       }
     }
 
-    // تحميل أول بث
+    // تحميل البث الأول تلقائياً
     const firstBtn = document.querySelector(".albaplayer_name a.active");
     if (firstBtn) {
       loadHLS(firstBtn.getAttribute("data-stream"));
     }
 
-    // التعامل مع تغيير البث
+    // التعامل مع الأزرار
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
       btn.addEventListener("click", e => {
         e.preventDefault();
@@ -179,25 +130,6 @@
         loadHLS(btn.getAttribute("data-stream"));
       });
     });
-
-    // زر التحديث
-    function refreshStream() {
-      if (currentStream) {
-        loadHLS(currentStream + "?t=" + new Date().getTime());
-      }
-    }
-
-    // زر المشاركة
-    function copyLink() {
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => alert("✅ تم نسخ الرابط!"))
-        .catch(() => alert("❌ لم يتم النسخ!"));
-    }
-
-    // زر تيليجرام
-    function subscribeTelegram() {
-      window.open("https://t.me/your_channel", "_blank"); // ✅ غيّر هذا الرابط
-    }
   </script>
 </body>
 </html>
