@@ -66,11 +66,15 @@
     #player-container {
       width: 100%;
       height: 100%;
+      display: flex;               /* لجعل الحاوية تستخدم Flexbox */
+      justify-content: center;     /* توسيط أفقياً */
+      align-items: center;         /* توسيط عمودياً */
     }
 
     video, .plyr__video-embed {
-      width: 100% !important;
-      height: 100% !important;
+      width: 80% !important;       /* تصغير العرض إلى 80% */
+      height: auto !important;     /* الارتفاع تلقائي للحفاظ على نسبة العرض للارتفاع */
+      max-height: 100%;            /* لا يتجاوز ارتفاع الحاوية */
       background: #000;
     }
 
@@ -86,6 +90,7 @@
 
       video, .plyr__video-embed {
         height: 220px !important;
+        width: 100% !important; /* عشان على الموبايل ياخد العرض كامل */
       }
     }
   </style>
