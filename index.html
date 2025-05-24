@@ -1,76 +1,181 @@
-<style>
-  body {
-    margin: 0;
-    background: #000;
-    font-family: sans-serif;
-  }
+<!DOCTYPE html>
+<html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+  <title>اون تايم سبورت 2 on time sport</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <style>
+    :root {
+      --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
+      --plyr-color-main: #9c88ff;
+    }
 
-  .albaplayer_name {
-    display: flex;
-    justify-content: center;
-    background: #000;
-    padding: 10px;
-    list-style: none;
-    width: 100%;
-    flex-wrap: wrap;
-    z-index: 10;
-  }
+    body {
+      margin: 0;
+      background: #000;
+      font-family: sans-serif;
+    }
 
-  .albaplayer_name li {
-    margin: 5px;
-  }
+    .albaplayer_server-body {
+      position: relative;
+      width: 100%;
+      background: #000;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
 
-  .albaplayer_name a {
-    background: #552a86;
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 3px;
-    height: 43px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff !important;
-    text-decoration: none;
-  }
+    .albaplayer_name {
+      display: flex;
+      justify-content: flex-end;
+      background: #000;
+      padding: 0 2px;
+      max-height: 50px;
+      overflow: hidden;
+      margin: 0;
+      list-style: none;
+    }
 
-  .albaplayer_name a.active,
-  .albaplayer_name a:hover {
-    background: #9e1414;
-    transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
-  }
+    .albaplayer_name li {
+      margin: 4px 2px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
 
-  .albaplayer_server-body {
-    background: #000;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-  }
+    .albaplayer_name a {
+      background: #552a86;
+      font-size: 16px;
+      padding: 5px 5px 7px;
+      border-radius: 1px;
+      height: 43px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff !important;
+      width: 100%;
+    }
 
-  #player-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .albaplayer_name a.active,
+    .albaplayer_name a:hover {
+      background: #9e1414;
+      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
+    }
 
-  video, .plyr__video-embed {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto !important;
-    height: auto !important;
-    object-fit: contain;
-    background: #000;
-  }
-</style>
+    #player-container {
+      width: 100%;
+      height: 100%;
+    }
 
-<div class="albaplayer_server-body">
-  <div id="player-container">
-    <video id="player" playsinline controls></video>
+    video, .plyr__video-embed {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
+    }
+
+    /* Media Query لأجهزة الهاتف */
+    @media (max-width: 768px) {
+      .albaplayer_name {
+        flex-direction: column;
+        align-items: stretch;
+        max-height: none;
+      }
+
+      .albaplayer_name li {
+        margin: 2px 0;
+      }
+
+      .albaplayer_name a {
+        font-size: 18px;
+        height: 50px;
+      }
+
+      .albaplayer_server-body {
+        height: calc(100vh - 160px); /* مساحة إضافية للقائمة */
+      }
+
+      video, .plyr__video-embed {
+        height: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <ul class="albaplayer_name">
+    <li><a href="#" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
+    <li><a href="#" data-stream="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8">بث 2</a></li>
+    <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
+  </ul>
+
+  <div class="albaplayer_server-body">
+    <div id="player-container">
+      <video id="player" playsinline controls></video>
+    </div>
   </div>
-</div>
+
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const playerContainer = document.getElementById("player-container");
+    let plyr;
+    let hls;
+
+    function loadHLS(url) {
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+      if (plyr) {
+        plyr.destroy();
+      }
+
+      playerContainer.innerHTML = '<video id="player" playsinline controls></video>';
+      const video = document.getElementById("player");
+      plyr = new Plyr(video);
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = url;
+        video.addEventListener("loadedmetadata", () => video.play());
+      } else {
+        alert("عذراً، المتصفح لا يدعم تشغيل البث المباشر.");
+      }
+    }
+
+    // تحميل البث الأول تلقائياً
+    const firstBtn = document.querySelector(".albaplayer_name a.active");
+    if (firstBtn) {
+      loadHLS(firstBtn.getAttribute("data-stream"));
+    }
+
+    // التعامل مع الأزرار
+    document.querySelectorAll(".albaplayer_name a").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
+        btn.classList.add("active");
+        loadHLS(btn.getAttribute("data-stream"));
+      });
+    });
+
+    // إضافة كلاس حسب نوع الجهاز
+    function detectDevice() {
+      const ua = navigator.userAgent;
+      if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+        document.body.classList.add("mobile-device");
+      } else {
+        document.body.classList.add("desktop-device");
+      }
+    }
+
+    detectDevice();
+  </script>
+</body>
+</html>
