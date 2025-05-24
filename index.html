@@ -1,253 +1,203 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>اون تايم سبورت 2 on time sport</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <style>
-        body {
-            box-sizing: border-box;
-            background: #000;
-            font-family: sans-serif;
-            margin: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>اون تايم سبورت 2 on time sport</title>
 
-        * {
-            text-decoration: none;
-        }
+  <!-- روابط مكتبات Clappr الرسمية -->
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector@latest/dist/level-selector.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/hlsjs-playback.min.js"></script>
 
-        .albaplayer_name {
-            display: flex;
-            justify-content: flex-end;
-            direction: rtl;
-            background: #000;
-            padding: 0 2px;
-            max-height: 50px;
-            overflow: hidden;
-            margin: 0;
-            list-style: none;
-        }
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      font-family: sans-serif;
+      direction: rtl;
+    }
 
-        .albaplayer_name li {
-            margin: 4px 2px;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
+    ul.albaplayer_name {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 10px;
+      list-style: none;
+      margin: 0;
+      background: #000;
+    }
 
-        .albaplayer_name a {
-            background: #552a86;
-            font-size: 16px;
-            padding: 5px 5px 7px;
-            border-radius: 3px;
-            height: 43px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff !important;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    ul.albaplayer_name li {
+      margin: 5px 5px;
+    }
 
-        .albaplayer_name a.active {
-            background-color: #9e1414 !important;
-            color: #ffffff !important;
-        }
+    ul.albaplayer_name a {
+      background: #552a86;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
 
-        .albaplayer_server-body {
-            position: relative;
-            width: 100%;
-            background: #000;
-            height: calc(100vh - 60px);
-            overflow: hidden;
-        }
+    ul.albaplayer_name a.active,
+    ul.albaplayer_name a:hover {
+      background-color: #9e1414;
+      color: #fff;
+    }
 
-        .embed-responsive {
-            height: 100%;
-            position: relative;
-            display: block;
-            width: 100%;
-            padding: 0;
-        }
+    #video-player-container {
+      width: 100vw;
+      height: calc(100vh - 50px);
+      background: #000;
+    }
 
-        #video-player-container {
-            width: 100%;
-            height: 100%;
-        }
+    /* زر المشاركة */
+    .albaplayer_videos_channel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+      color: #fff;
+    }
 
-        .albaplayer_videos_channel {
-            position: absolute;
-            z-index: 999;
-            left: 8px;
-            top: 6px;
-            right: 8px;
-            height: 0;
-        }
+    .button {
+      background: #9e1414;
+      padding: 6px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: 700;
+      user-select: none;
+    }
 
-        .albaplayer_videos_channel .button {
-            background: #9e1414;
-            cursor: pointer;
-            font-size: 14px;
-            float: left;
-            display: block;
-            border-radius: 2px;
-            height: 25px;
-            text-align: center;
-            line-height: 22px;
-            text-shadow: 0 1px 1px #000;
-            color: #fff;
-            padding: 0 10px;
-            font-weight: 700;
-        }
+    #showother {
+      position: absolute;
+      top: 40px;
+      left: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+      max-width: 300px;
+      color: #eee;
+    }
 
-        .albaplayer_videos_channel .refresh {
-            float: right;
-        }
+    #albaplayer_player_share {
+      width: 100%;
+      height: 80px;
+      background: #333;
+      border: none;
+      color: #eee;
+      padding: 10px;
+      resize: vertical;
+      font-family: monospace;
+      border-radius: 4px;
+    }
 
-        .albaplayer_videos_channel .share {
-            float: left;
-            cursor: pointer;
-        }
+    .custom-btn {
+      background-color: #552a86;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 6px;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
 
-        /* Share section styles */
-        #showother {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 5px;
-            display: none; /* Hidden by default */
-        }
-
-        #albaplayer_share_channel {
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .albaplayer_share_title {
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        #albaplayer_player_share {
-            width: calc(100% - 20px);
-            height: 80px;
-            background-color: #333;
-            color: #eee;
-            border: 1px solid #555;
-            padding: 10px;
-            font-family: monospace;
-            resize: vertical;
-            margin-bottom: 10px;
-            border-radius: 3px;
-        }
-
-        .custom-btn {
-            background-color: #552a86;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .custom-btn:hover {
-            background-color: #6a3e9c;
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
-    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-hlsjs-plugin@latest/dist/clappr-hlsjs-plugin.min.js"></script>
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    .custom-btn:hover {
+      background-color: #6a3e9c;
+    }
+  </style>
 </head>
 <body>
 
-    <ul class="albaplayer_name">
-        <li><a href="javascript:void(0)" data-url="https://raw.githubusercontent.com/Hibimi8/1--/refs/heads/main/Bein-sport.m3u8" class="active">بث 1</a></li>
-        <li><a href="javascript:void(0)" data-url="https://example.com/stream2.m3u8">بث 2</a></li>
-        <li><a href="javascript:void(0)" data-url="https://example.com/stream3.m3u8">بث 3</a></li>
-        <li><a href="javascript:void(0)" data-url="https://example.com/stream4.m3u8">بث 4</a></li>
-        <li><a href="javascript:void(0)" data-url="https://example.com/stream5.m3u8">بث 5</a></li>
-    </ul>
+<ul class="albaplayer_name">
+  <li><a href="javascript:void(0)" data-url="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
+  <li><a href="javascript:void(0)" data-url="https://example.com/stream2.m3u8">بث 2</a></li>
+  <li><a href="javascript:void(0)" data-url="https://example.com/stream3.m3u8">بث 3</a></li>
+  <li><a href="javascript:void(0)" data-url="https://example.com/stream4.m3u8">بث 4</a></li>
+  <li><a href="javascript:void(0)" data-url="https://example.com/stream5.m3u8">بث 5</a></li>
+</ul>
 
-    <div class="albaplayer_server-body">
-        <div id="video-player-container" class="embed-responsive"></div>
+<div id="video-player-container"></div>
 
-        <div class="albaplayer_videos_channel">
-            <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
-            <div id="showshare" style="display: block;">
-                <span onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">
-                    <div class="button share">مشاركة</div>
-                </span>
-            </div>
-            <div class="showother" id="showother" style="display: none;">
-                <span onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">
-                    <div class="button close">اغلاق</div>
-                </span>
-                <div id="albaplayer_share_channel">
-                    <div class="share-channel">
-                        <div class="albaplayer_share_title">كود التضمين</div>
-                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly>
-<iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe>
-                        </textarea>
-                        <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="albaplayer_videos_channel">
+  <div class="button" onclick="location.reload()">تحديث</div>
+  <div class="button" id="showshareBtn" onclick="toggleShare()">مشاركة</div>
 
-    <script>
-        const links = document.querySelectorAll('.albaplayer_name a');
-        
-        // الرابط الافتراضي المطلوب عند فتح الصفحة
-        const defaultStreamUrl = "https://raw.githubusercontent.com/Hibimi8/1--/refs/heads/main/Bein-sport.m3u8";
+  <div id="showother">
+    <div class="button" onclick="toggleShare()">اغلاق</div>
+    <div class="albaplayer_share_title" style="margin-top:10px;">كود التضمين</div>
+    <textarea id="albaplayer_player_share" readonly onclick="this.select()"><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
+    <button class="custom-btn" onclick="copyEmbedCode()">انقر للنسخ</button>
+  </div>
+</div>
 
-        // تهيئة المشغل بالرابط الافتراضي
-        let player = new Clappr.Player({
-            source: defaultStreamUrl, // سيتم تشغيل هذا البث تلقائيًا عند تحميل الصفحة
-            parentId: '#video-player-container',
-            width: '100%',
-            height: '100%',
-            autoPlay: true,
-            mediacontrol: { seekbar: "#00ff00" },
-            // إضافة HlsjsPlayback ضروري لتشغيل بثوث HLS (.m3u8)
-            plugins: [ClapprLevelSelector, HlsjsPlayback],
-            hlsjsConfig: {
-                // debug: true, // اختياري: لإظهار رسائل تصحيح الأخطاء في الكونسول
-            },
-            levelSelectorConfig: { title: 'الجودة' },
-        });
+<script>
+  const links = document.querySelectorAll('.albaplayer_name a');
+  const playerContainer = document.getElementById('video-player-container');
+  let player;
 
-        // التحكم في الضغط على أزرار البث
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // منع السلوك الافتراضي للرابط
+  // تهيئة المشغل بالبث الافتراضي
+  function initPlayer(url) {
+    if(player) {
+      player.destroy();
+    }
+    player = new Clappr.Player({
+      source: url,
+      parentId: '#video-player-container',
+      autoPlay: true,
+      width: '100%',
+      height: '100%',
+      plugins: [ClapprLevelSelector, HlsjsPlayback],
+      levelSelectorConfig: { title: 'الجودة' },
+      mediacontrol: { seekbar: '#00ff00' }
+    });
+  }
 
-                // إزالة فئة "active" من جميع الروابط
-                links.forEach(l => l.classList.remove('active'));
-                // إضافة فئة "active" للرابط الذي تم النقر عليه
-                link.classList.add('active');
+  // بدء التشغيل بالبث الافتراضي
+  initPlayer(document.querySelector('.albaplayer_name a.active').dataset.url);
 
-                const newSrc = link.getAttribute('data-url');
-                
-                // توقف المشغل الحالي ثم حمّل البث الجديد لضمان الانتقال السلس
-                if (player) {
-                    player.stop(); // توقف المشغل
-                }
-                player.load(newSrc); // حمل السورس الجديد
-            });
-        });
-    </script>
+  // تغيير البث عند الضغط على أي زر
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      // إزالة class active من الكل
+      links.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      const url = link.dataset.url;
+      initPlayer(url);
+    });
+  });
+
+  // عرض / إخفاء صندوق المشاركة
+  function toggleShare() {
+    const showOther = document.getElementById('showother');
+    const showShareBtn = document.getElementById('showshareBtn');
+    if(showOther.style.display === 'block') {
+      showOther.style.display = 'none';
+      showShareBtn.style.display = 'inline-block';
+    } else {
+      showOther.style.display = 'block';
+      showShareBtn.style.display = 'none';
+    }
+  }
+
+  // نسخ كود التضمين
+  function copyEmbedCode() {
+    const textarea = document.getElementById('albaplayer_player_share');
+    textarea.select();
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      alert('تم نسخ كود التضمين');
+    });
+  }
+</script>
+
 </body>
 </html>
