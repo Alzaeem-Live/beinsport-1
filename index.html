@@ -1,129 +1,189 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-<title>البث الرياضي</title>
-<style>
-    body {
-        background: #000;
-        color: #fff;
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    ul.albaplayer_name {
-        display: flex;
-        justify-content: flex-end;
-        list-style: none;
-        margin: 0;
-        padding: 10px 10px 0 10px;
-        background: #111;
-    }
-    ul.albaplayer_name li {
-        margin-left: 10px;
-    }
-    ul.albaplayer_name li button {
-        background: #552a86;
-        border: none;
-        color: white;
-        padding: 8px 14px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 3px;
-        font-weight: 700;
-    }
-    ul.albaplayer_name li button.active,
-    ul.albaplayer_name li button:hover {
-        background: #9e1414;
-    }
-    #video-player-container {
-        width: 100%;
-        height: calc(100vh - 60px);
-        background: #000;
-    }
-    #video-player-container iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-    .albaplayer_videos_channel {
-        background: #111;
-        padding: 10px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 10px;
-    }
-    .albaplayer_videos_channel button {
-        background: #552a86;
-        border: none;
-        color: white;
-        padding: 8px 14px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 3px;
-        font-weight: 700;
-    }
-    .albaplayer_videos_channel button:hover {
-        background: #9e1414;
-    }
-    textarea {
-        width: 100%;
-        height: 60px;
-        margin-top: 10px;
-        font-size: 14px;
-        padding: 8px;
-        resize: none;
-        background: #222;
-        color: #fff;
-        border: none;
-        direction: ltr;
-    }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+    <title>اون تايم سبورت 2 on time sport</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+        /* نفس التنسيقات السابقة */
+        body {
+            box-sizing: border-box;
+            background: #000;
+            font-family: sans-serif;
+            margin: 0;
+        }
+        * {
+            text-decoration: none;
+        }
+        .albaplayer_name {
+            display: flex;
+            justify-content: flex-end;
+            direction: rtl;
+            background: #000;
+            padding: 0 2px;
+            max-height: 50px;
+            overflow: hidden;
+            margin: 0;
+            list-style: none;
+        }
+        .albaplayer_name li {
+            margin: 4px 2px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .albaplayer_name a {
+            background: #552a86;
+            font-size: 16px;
+            padding: 5px 5px 7px;
+            border-radius: 1px;
+            height: 43px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff !important;
+            width: 100%;
+            cursor: pointer;
+        }
+        .albaplayer_name a.active,
+        .albaplayer_name a:hover {
+            background: #9e1414;
+            transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
+        }
+        .albaplayer_server-body {
+            position: relative;
+            width: 100%;
+            background: #000;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+        }
+        .embed-responsive {
+            height: 100%;
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+        }
+        #video-player-container {
+            width: 100%;
+            height: 100%;
+        }
+        .albaplayer_videos_channel {
+            position: absolute;
+            z-index: 999;
+            left: 8px;
+            top: 6px;
+            right: 8px;
+            height: 0;
+        }
+        .albaplayer_videos_channel .button {
+            background: #9e1414;
+            cursor: pointer;
+            font-size: 14px;
+            float: left;
+            display: block;
+            border-radius: 2px;
+            height: 25px;
+            text-align: center;
+            line-height: 22px;
+            text-shadow: 0 1px 1px #000;
+            color: #fff;
+            padding: 0 10px;
+            font-weight: 700;
+        }
+        .albaplayer_videos_channel .refresh {
+            float: right;
+        }
+        .albaplayer_videos_channel .share {
+            float: left;
+            cursor: pointer;
+        }
+        /* باقي التنسيقات كما هي */
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 </head>
+
 <body>
+    <ul class="albaplayer_name">
+        <li><a href="javascript:void(0)" data-url="https://example.com/stream1.m3u8" class="active">بث 1</a></li>
+        <li><a href="javascript:void(0)" data-url="https://example.com/stream2.m3u8">بث 2</a></li>
+        <li><a href="javascript:void(0)" data-url="https://example.com/stream3.m3u8">بث 3</a></li>
+        <li><a href="javascript:void(0)" data-url="https://example.com/stream4.m3u8">بث 4</a></li>
+        <li><a href="javascript:void(0)" data-url="https://example.com/stream5.m3u8">بث 5</a></li>
+    </ul>
 
-<ul class="albaplayer_name">
-    <li><button data-url="https://example.com/stream1" class="active">بث 1</button></li>
-    <li><button data-url="https://example.com/stream2">بث 2</button></li>
-    <li><button data-url="https://example.com/stream3">بث 3</button></li>
-    <li><button data-url="https://example.com/stream4">بث 4</button></li>
-    <li><button data-url="https://example.com/stream5">بث 5</button></li>
-</ul>
+    <div class="albaplayer_server-body">
+        <div id="video-player-container" class="embed-responsive"></div>
 
-<div id="video-player-container">
-    <iframe id="player" src="https://example.com/stream1" allowfullscreen scrolling="yes"></iframe>
-</div>
+        <div class="albaplayer_videos_channel">
+            <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
+            <div id="showshare" style="display: block;">
+                <span onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">
+                    <div class="button share">مشاركة</div>
+                </span>
+            </div>
+            <div class="showother" id="showother" style="display: none;">
+                <span onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">
+                    <div class="button close">اغلاق</div>
+                </span>
+                <div id="albaplayer_share_channel">
+                    <div class="share-channel">
+                        <div class="albaplayer_share_title">كود التضمين</div>
+                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
+                        <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="albaplayer_videos_channel">
-    <button id="btn-refresh" onclick="location.reload()">تحديث</button>
-</div>
+    <script>
+        // روابط البث المختلفة
+        const streams = {
+            'بث 1': "https://example.com/stream1.m3u8",
+            'بث 2': "https://example.com/stream2.m3u8",
+            'بث 3': "https://example.com/stream3.m3u8",
+            'بث 4': "https://example.com/stream4.m3u8",
+            'بث 5': "https://example.com/stream5.m3u8"
+        };
 
-<div>
-    <label for="embed-code">كود التضمين (ثابت):</label>
-    <textarea id="embed-code" readonly onclick="this.select()">
-<iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe>
-    </textarea>
-</div>
-
-<script>
-    const buttons = document.querySelectorAll('.albaplayer_name button');
-    const player = document.getElementById('player');
-
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            // إزالة الكلاس active من كل الأزرار
-            buttons.forEach(btn => btn.classList.remove('active'));
-            // إضافة الكلاس active للزر الذي تم الضغط عليه
-            button.classList.add('active');
-
-            // تغيير رابط iframe للبث بناءً على الزر
-            const newUrl = button.getAttribute('data-url');
-            player.src = newUrl;
+        // بداية تهيئة مشغل Clappr
+        let player = new Clappr.Player({
+            source: streams['بث 1'],
+            parentId: '#video-player-container',
+            width: '100%',
+            height: '100%',
+            autoPlay: true,
+            mediacontrol: { seekbar: "#00ff00" },
+            plugins: [ClapprLevelSelector],
+            levelSelectorConfig: {
+                title: 'الجودة',
+            },
         });
-    });
-</script>
 
+        // تحديث رابط الفيديو عند الضغط على الزر
+        const links = document.querySelectorAll('.albaplayer_name a');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // إزالة الكلاس active من الكل
+                links.forEach(l => l.classList.remove('active'));
+
+                // إضافة active للزر المضغوط
+                link.classList.add('active');
+
+                // تحديث مصدر الفيديو للمشغل فقط
+                const newSrc = link.getAttribute('data-url');
+                player.load(newSrc);
+            });
+        });
+    </script>
 </body>
 </html>
