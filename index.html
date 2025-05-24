@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-  <title>او سبورت 2 on time sport</title>
+  <title>اون تايم سبورت 2 on time sport</title>
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <style>
     :root {
@@ -74,29 +74,18 @@
       background: #000;
     }
 
-    /* Media Query لأجهزة الهاتف */
+    /* تخصيص شكل الفيديو على الهاتف فقط */
     @media (max-width: 768px) {
-      .albaplayer_name {
-        flex-direction: column;
-        align-items: stretch;
-        max-height: none;
-      }
-
-      .albaplayer_name li {
-        margin: 2px 0;
-      }
-
-      .albaplayer_name a {
-        font-size: 18px;
-        height: 50px;
-      }
-
       .albaplayer_server-body {
-        height: calc(100vh - 160px); /* مساحة إضافية للقائمة */
+        height: auto;
+      }
+
+      #player-container {
+        height: auto;
       }
 
       video, .plyr__video-embed {
-        height: 100% !important;
+        height: 220px !important;
       }
     }
   </style>
@@ -164,18 +153,6 @@
         loadHLS(btn.getAttribute("data-stream"));
       });
     });
-
-    // إضافة كلاس حسب نوع الجهاز
-    function detectDevice() {
-      const ua = navigator.userAgent;
-      if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
-        document.body.classList.add("mobile-device");
-      } else {
-        document.body.classList.add("desktop-device");
-      }
-    }
-
-    detectDevice();
   </script>
 </body>
 </html>
