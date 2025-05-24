@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>مشغل السيرفرات مع Plyr</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <style>
+    body{color:#fff;font-family:sans-serif;margin:0;padding:0;text-align:center}
+    .main-box{background-image:linear-gradient(to bottom,#313f96,#586aba);border-radius:25px;padding:20px;margin:20px auto;max-width:950px;box-shadow:0 4px 15px rgba(0,0,0,.4)}
+    .button-box{margin-bottom:20px}
+    .custom-btn{background:linear-gradient(to right,#4e54c8,#8f94fb);border:none;color:#fff;padding:10px 20px;margin:8px;font-size:16px;border-radius:25px;box-shadow:0 4px 6px rgba(0,0,0,.2);cursor:pointer;transition:.3s}
+    .custom-btn:hover{transform:scale(1.05);background:linear-gradient(to right,#3b41b5,#7a7ee7)}
+    .plyr__video-embed,video{width:100%;height:100%;border-radius:15px;background:#000}
+  </style>
+</head>
+<body>
+  <div class="main-box">
+    <div class="button-box">
+      <button class="custom-btn" data-source="hls" data-video-url="http://2mtv.net:8080/hh000/1234560/99">السيرفر 1</button>
+      <button class="custom-btn" data-source="hls" data-video-url="https://raw.githubusercontent.com/Hibimi8/1--/refs/heads/main/Bein-sport.m3u8">السيرفر 2)</button>
+      <button class="custom-btn" data-source="hls" data-video-url="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">السيرفر 3</button>
+      <button class="custom-btn" data-source="hls" data-video-url="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">السيرفر 4</button>
+      <button class="custom-btn" data-source="hls" data-video-url="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">السيرفر 5</button>
+      <button class="custom-btn" data-source="hls" data-video-url="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">السيرفر 6</button>
+    </div>
+    <div id="player-container"><video id="player" playsinline controls></video></div>
+  </div>
+
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const p=document.getElementById("player"),bts=document.querySelectorAll(".custom-btn");let plyr=new Plyr(p),hls;
+    function loadYT(id){if(hls){hls.destroy();hls=null}plyr.destroy();document.getElementById("player-container").innerHTML=`<div class="plyr__video-embed" id="youtube-player"><iframe src="https://www.youtube.com/embed/${id}?origin=${location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1" allowfullscreen allowtransparency allow="autoplay"></iframe></div>`;plyr=new Plyr("#youtube-player")}
+    function loadHLS(url){document.getElementById("player-container").innerHTML='<video id="player" playsinline controls></video>';const v=document.getElementById("player");plyr&&plyr.destroy();plyr=new Plyr(v);if(Hls.isSupported()){hls=new Hls;hls.loadSource(url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play())}else if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=url;v.addEventListener("loadedmetadata",()=>v.play())}else alert("عذراً، المتصفح لا يدعم تشغيل البث المباشر.")}
+    bts.forEach(btn=>{btn.addEventListener("click",()=>{const s=btn.getAttribute("data-source");s==="youtube"?loadYT(btn.getAttribute("data-video-id")):loadHLS(btn.getAttribute("data-video-url"))})});
+    const first=document.querySelector(".button-box .custom-btn");if(first){const s=first.getAttribute("data-source");s==="youtube"?loadYT(first.getAttribute("data-video-id")):loadHLS(first.getAttribute("data-video-url"))}
+  </script>
+</body>
+</html>
