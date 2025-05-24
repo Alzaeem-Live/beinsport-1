@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
   <title>اون تايم سبورت 2 on time sport</title>
-
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <style>
     :root {
       --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
@@ -22,10 +19,11 @@
 
     .albaplayer_server-body {
       position: relative;
-      width: 100%;
+      width: 100vw;
+      height: 100vh;
       background: #000;
-      height: calc(100vh - 60px);
       overflow: hidden;
+      margin: 0;
     }
 
     .albaplayer_name {
@@ -37,19 +35,21 @@
       overflow: hidden;
       margin: 0;
       list-style: none;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 20;
     }
 
     .albaplayer_name li {
       margin: 4px 2px;
-      flex: 1;
-      display: flex;
-      justify-content: center;
+      display: block;
     }
 
     .albaplayer_name a {
       background: #552a86;
       font-size: 16px;
-      padding: 5px 5px 7px;
+      padding: 7px 12px;
       border-radius: 1px;
       height: 43px;
       font-weight: 600;
@@ -57,48 +57,41 @@
       align-items: center;
       justify-content: center;
       color: #fff !important;
-      width: 100%;
       cursor: pointer;
       text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.3s ease;
     }
 
     .albaplayer_name a.active,
     .albaplayer_name a:hover {
       background: #9e1414;
-      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
     }
 
     #player-container {
       position: relative;
       width: 100%;
-      height: calc(100% - 40px);
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* Video.js player styling */
-    .video-js {
-      width: 80% !important;
-      height: auto !important;
+    video, .plyr__video-embed {
+      width: 100% !important;
+      height: 100% !important;
       max-height: 100%;
       background: #000;
       display: block;
+      object-fit: contain;
     }
 
-    /* Responsive for mobile */
+    /* لو حابب تجعل الأزرار فوق الفيديو في الهاتف */
     @media (max-width: 768px) {
-      .albaplayer_server-body {
-        height: auto;
-      }
-
-      #player-container {
-        height: auto;
-      }
-
-      .video-js {
-        height: 220px !important;
-        width: 100% !important;
+      .albaplayer_name {
+        position: relative;
+        max-height: none;
+        padding: 5px;
       }
     }
   </style>
@@ -114,53 +107,56 @@
 
   <div class="albaplayer_server-body">
     <div id="player-container">
-      <!-- Video.js player element -->
-      <video
-        id="player"
-        class="video-js vjs-default-skin"
-        controls
-        preload="auto"
-        playsinline
-      ></video>
+      <video id="player" playsinline controls></video>
     </div>
   </div>
 
-  <!-- Video.js and HLS scripts -->
-  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
-
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    const player = videojs('player', {
-      fluid: true,
-      autoplay: false,
-      controls: true,
-      techOrder: ['html5']
-    });
+    const playerContainer = document.getElementById("player-container");
+    let plyr;
+    let hls;
 
-    function loadStream(url) {
-      player.src({
-        src: url,
-        type: 'application/x-mpegURL'
-      });
-      player.play();
+    function loadHLS(url) {
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+      if (plyr) {
+        plyr.destroy();
+      }
+
+      playerContainer.innerHTML = '<video id="player" playsinline controls></video>';
+      const video = document.getElementById("player");
+      plyr = new Plyr(video);
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = url;
+        video.addEventListener("loadedmetadata", () => video.play());
+      } else {
+        alert("عذراً، المتصفح لا يدعم تشغيل البث المباشر.");
+      }
     }
 
-    // تحميل البث الأول تلقائياً
     const firstBtn = document.querySelector(".albaplayer_name a.active");
     if (firstBtn) {
-      loadStream(firstBtn.getAttribute("data-stream"));
+      loadHLS(firstBtn.getAttribute("data-stream"));
     }
 
-    // التعامل مع الأزرار لتغيير البث
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
       btn.addEventListener("click", e => {
         e.preventDefault();
         document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
         btn.classList.add("active");
-        loadStream(btn.getAttribute("data-stream"));
+        loadHLS(btn.getAttribute("data-stream"));
       });
     });
   </script>
-
 </body>
 </html>
