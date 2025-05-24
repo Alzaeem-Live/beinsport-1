@@ -2,7 +2,7 @@
 <html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>اون تايم سبورت 2 on time sport</title>
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <style>
@@ -15,61 +15,60 @@
       margin: 0;
       background: #000;
       font-family: sans-serif;
-    }
-
-    .albaplayer_server-body {
-      position: relative;
-      width: 100vw;
+      display: flex;
+      flex-direction: column;
       height: 100vh;
-      background: #000;
       overflow: hidden;
-      margin: 0;
     }
 
     .albaplayer_name {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       background: #000;
-      padding: 0 2px;
-      max-height: 50px;
-      overflow: hidden;
-      margin: 0;
+      padding: 10px;
       list-style: none;
-      position: absolute;
-      top: 0;
       width: 100%;
-      z-index: 20;
+      flex-wrap: wrap;
+      z-index: 10;
+      height: 60px;
+      box-sizing: border-box;
     }
 
     .albaplayer_name li {
-      margin: 4px 2px;
-      display: block;
+      margin: 5px;
     }
 
     .albaplayer_name a {
       background: #552a86;
       font-size: 16px;
-      padding: 7px 12px;
-      border-radius: 1px;
+      padding: 5px 10px;
+      border-radius: 3px;
       height: 43px;
       font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff !important;
-      cursor: pointer;
       text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.3s ease;
     }
 
     .albaplayer_name a.active,
     .albaplayer_name a:hover {
       background: #9e1414;
+      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
+    }
+
+    .albaplayer_server-body {
+      background: #000;
+      width: 100vw;
+      height: calc(100vh - 60px); /* خصم مساحة الزرائر */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
 
     #player-container {
-      position: relative;
       width: 100%;
       height: 100%;
       display: flex;
@@ -78,21 +77,12 @@
     }
 
     video, .plyr__video-embed {
-      width: 100% !important;
-      height: 100% !important;
+      max-width: 100%;
       max-height: 100%;
-      background: #000;
-      display: block;
+      width: auto !important;
+      height: auto !important;
       object-fit: contain;
-    }
-
-    /* لو حابب تجعل الأزرار فوق الفيديو في الهاتف */
-    @media (max-width: 768px) {
-      .albaplayer_name {
-        position: relative;
-        max-height: none;
-        padding: 5px;
-      }
+      background: #000;
     }
   </style>
 </head>
@@ -144,11 +134,13 @@
       }
     }
 
+    // تحميل البث الأول تلقائياً
     const firstBtn = document.querySelector(".albaplayer_name a.active");
     if (firstBtn) {
       loadHLS(firstBtn.getAttribute("data-stream"));
     }
 
+    // التعامل مع الأزرار
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
       btn.addEventListener("click", e => {
         e.preventDefault();
