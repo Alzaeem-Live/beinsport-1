@@ -117,10 +117,10 @@
             text-align: center;
             color: #fff;
             font-size: 3vw;
-            display: none1; /* Typo from original, assume intended as display:none */
+            /* display: none1; This was a typo, assume display: none */
+            display: none;
         }
 
-        /* Many JW Player specific styles removed for simplicity as we're not using JW Player without its full JS */
         #player {
             width: 100%;
             position: absolute;
@@ -165,33 +165,33 @@
             overflow: hidden;
             width: 100%;
             background: #000;
-            max-height: 50px; /* Reduced for better fit */
+            max-height: 50px;
             box-sizing: border-box;
             padding: 0 2px;
             margin: 0;
             list-style: none;
             justify-content: flex-end; /* Align channels to the right */
+            direction: rtl; /* Ensure RTL for channel order */
         }
 
         .albaplayer_name li {
             text-align: center;
-            width: 100%;
             margin: 4px 2px;
             position: relative;
-            float: right;
+            float: right; /* Original code uses float right, but flexbox is better for this */
             z-index: 3;
-            flex: 1;
+            flex: 1; /* Allow flex items to grow and shrink */
             box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
-            max-width: 100px; /* Limit width of channel buttons */
+            /* Removed max-width: 100px; to allow buttons to expand on desktop */
         }
 
         .albaplayer_name a {
             text-align: center;
             background: #552a86;
-            font-size: 16px;
+            font-size: 16px; /* Default size for desktop */
             width: 100%;
             position: relative;
             cursor: pointer;
@@ -214,7 +214,7 @@
         .albaplayer_name a.active,
         .albaplayer_name a:hover {
             background: #9e1414;
-            transition: .3s all cubic-bezier(.68, -.55, .265, 1.55); /* Re-added cubic-bezier from original */
+            transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
             color: #fff !important;
         }
 
@@ -246,23 +246,6 @@
             border: 0;
         }
 
-        /* Ratio classes are mostly for fixed aspect ratios, might not be needed for full height */
-        .embed-responsive-21by9::before {
-            padding-top: 42.857143%
-        }
-
-        .embed-responsive-16by9::before {
-            padding-top: 56.25%
-        }
-
-        .embed-responsive-4by3::before {
-            padding-top: 75%
-        }
-
-        .embed-responsive-1by1::before {
-            padding-top: 100%
-        }
-
         .albaplayer_share_title {
             text-align: center;
             color: #fff;
@@ -273,7 +256,6 @@
             color: #fff
         }
 
-        /* Simplified ad section for placeholder */
         #albaAdsPlayer {
             position: absolute;
             width: 336px;
@@ -317,17 +299,11 @@
         }
 
         /* Responsive adjustments */
-        @media screen and (max-width:500px) {
-            .jw-controls.jw-reset:before,
-            .albaplayer_site_name {
-                font-size: 4vw
-            }
-        }
-
         @media screen and (max-width:640px) {
+            /* These styles will apply only to screens up to 640px wide (mobile) */
             .albaplayer_name {
                 width: 100%;
-                direction: rtl;
+                /* direction: rtl; Already set globally for albaplayer_name */
                 text-align: center;
                 overflow-x: auto; /* Changed to x for horizontal scroll */
                 overflow-y: hidden; /* Ensure no vertical scroll */
@@ -336,22 +312,18 @@
             }
 
             .albaplayer_name li {
-                display: inline-block;
+                display: inline-block; /* Change to inline-block for horizontal scroll */
                 vertical-align: middle;
-                background-image: none;
                 white-space: nowrap;
-                -moz-user-select: none;
-                cursor: pointer;
-                position: relative;
                 margin: 0 3px 0;
-                flex-shrink: 0; /* Prevent shrinking on small screens */
+                flex: none; /* Prevent flex growing/shrinking on mobile for scroll */
             }
 
             .albaplayer_name a {
-                font-size: 14px;
+                font-size: 14px; /* Smaller font for mobile */
                 padding: 4px 8px 7px;
                 border-radius: 2px;
-                height: 30px;
+                height: 30px; /* Smaller height for mobile */
                 margin-top: 4px;
             }
 
@@ -485,14 +457,12 @@
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
-    </head>
+</head>
 <body>
 
     <ul class="albaplayer_name">
@@ -521,9 +491,7 @@
                 <div id='albaplayer_share_channel'>
                     <div class='share-channel'>
                         <div class="albaplayer_share_title">كود التضمين</div>
-                        <textarea id='albaplayer_player_share' onclick='this.select();' onfocus='this.select();'>
-                            <iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='https://dd.alkoora.live/albaplayer/on-time-sport-2/' width='100%'></iframe>
-                        </textarea>
+                        <textarea id='albaplayer_player_share' onclick='this.select();' onfocus='this.select();'><iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='https://dd.alkoora.live/albaplayer/on-time-sport-2/' width='100%'></iframe></textarea>
                         <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
                     </div>
                 </div>
@@ -552,24 +520,24 @@
             // Example: HLS (.m3u8), or an iframe embed URL.
             const streamSources = {
                 1: { // بث1
-                    mobile: 'https://cdn.example.com/stream1-mobile.m3u8', // HLS for Clappr
-                    desktop: 'https://player.example.com/embed/stream1.html' // Iframe for desktop
+                    mobile: 'https://demo.unified-streaming.com/k8s/features/stable/video/caminandes_sintel_trailer/caminandes_sintel_trailer.ism/.m3u8', // Example HLS
+                    desktop: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1' // Example iframe (YouTube)
                 },
                 2: { // بث2
-                    mobile: 'https://cdn.example.com/stream2-mobile.m3u8',
-                    desktop: 'https://player.example.com/embed/stream2.html'
+                    mobile: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', // Another HLS example
+                    desktop: 'https://player.vimeo.com/video/570701047?autoplay=1&loop=0&autopause=0' // Another iframe (Vimeo)
                 },
                 3: { // بث3
-                    mobile: 'https://cdn.example.com/stream3-mobile.m3u8',
-                    desktop: 'https://player.example.com/embed/stream3.html'
+                    mobile: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+                    desktop: 'https://dailymotion.com/embed/video/x8s4t91?autoplay=1' // Dailymotion example
                 },
                 4: { // EN
-                    mobile: 'https://cdn.example.com/stream-en-mobile.m3u8',
-                    desktop: 'https://player.example.com/embed/stream-en.html'
+                    mobile: 'https://mnmediacdn.com/media/test_videos/caminandes_sintel_trailer-1080p.mp4/playlist.m3u8',
+                    desktop: 'https://www.w3schools.com/html/mov_bbb.mp4' // Direct MP4 as iframe fallback
                 },
                 5: { // SP
-                    mobile: 'https://cdn.example.com/stream-sp-mobile.m3u8',
-                    desktop: 'https://player.example.com/embed/stream-sp.html'
+                    mobile: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8',
+                    desktop: 'https://player.twitch.tv/?video=2015091720&parent=yourdomain.com&autoplay=true' // Twitch example (replace yourdomain.com)
                 },
             };
 
@@ -594,15 +562,11 @@
                 videoContainer.innerHTML = ''; // Clear previous player
 
                 let playerHtml = '';
-                let embedUrl = window.location.origin + window.location.pathname + '?serv=' + servId; // For share link
+                // Construct the embed URL carefully to avoid extra spaces
+                const currentCanonicalUrl = document.querySelector('link[rel="canonical"]').href;
+                const shareEmbedSrc = currentCanonicalUrl.split('?')[0] + '?serv=' + servId; // Use canonical URL base
 
                 if (isMobile) {
-                    // Mobile: Use Clappr for HLS streams
-                    // The actual Clappr initialization is a bit more involved,
-                    // as it needs to be created dynamically in the HTML and then initialized.
-                    // For simplicity and matching your original code's pattern, we'll embed the script.
-                    // Note: This pattern of document.write with script tags is generally discouraged
-                    // for dynamic content due to potential issues, but it mimics the provided code.
                     playerHtml = `
                         <div id="player"></div>
                         <script>
@@ -617,11 +581,10 @@
                             });
                         </script>
                     `;
-                    // Update the share link for mobile (Clappr example in provided code didn't change share link src)
-                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${embedUrl}' width='100%'></iframe>`;
+                    // Update the share link for mobile, ensure no extra spaces
+                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${shareEmbedSrc}' width='100%'></iframe>`;
 
                 } else {
-                    // Desktop: Use iframe (or you could load Plyr/Video.js here)
                     playerHtml = `
                         <iframe
                             allowfullscreen=''
@@ -636,11 +599,10 @@
                             width='100%'
                         ></iframe>
                     `;
-                    // Update the share link for desktop
-                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${embedUrl}' width='100%'></iframe>`;
+                    // Update the share link for desktop, ensure no extra spaces
+                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${shareEmbedSrc}' width='100%'></iframe>`;
                 }
 
-                // Append the player HTML. Using insertAdjacentHTML for dynamic script execution
                 videoContainer.insertAdjacentHTML('beforeend', playerHtml);
             }
 
@@ -695,21 +657,27 @@
                 }
             });
 
-            // Telegram message display logic (copied from your code)
+            // Telegram message display logic
             const tmeMessage = document.getElementById('tme_message');
             const tmeButton = document.getElementById('tme');
             if (tmeMessage && tmeButton) {
-                // You might want to add some logic to hide/show this on page load based on cookie or local storage
-                // For now, it will be visible by default as per the original HTML structure
-                tmeButton.addEventListener('click', function() {
-                    tmeMessage.style.display = (tmeMessage.style.display === 'none' || tmeMessage.style.display === '') ? 'block' : 'none';
+                // Set initial state based on your preference, e.g., hidden by default
+                // tmeMessage.style.display = 'none'; // Uncomment to hide by default
+
+                tmeButton.addEventListener('click', function(e) {
+                    // Toggle visibility
+                    if (tmeMessage.style.display === 'none' || tmeMessage.style.display === '') {
+                        tmeMessage.style.display = 'block';
+                    } else {
+                        tmeMessage.style.display = 'none';
+                    }
+                    e.stopPropagation(); // Prevent this click from bubbling up if there's a parent handler
                 });
                 document.querySelector('.clossalert').addEventListener('click', function(e) {
                     e.stopPropagation(); // Prevent click from bubbling to the parent #tme
                     tmeMessage.style.display = 'none';
                 });
             }
-
         });
     </script>
 </body>
