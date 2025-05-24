@@ -1,158 +1,101 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"> <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشغل بث مباشر - On Time Sport</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #000; /* Black background like the image */
-            color: #fff;
-        }
-        .header {
-            background-color: #1a1a1a; /* Darker header background */
-            padding: 10px 0;
-            display: flex;
-            justify-content: flex-end; /* Align items to the right for RTL */
-            align-items: center;
-        }
-        .header button {
-            background-color: #e60000; /* Red button for 'اشتراك' */
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            margin-right: 20px; /* Space from the right edge */
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 3px;
-        }
-        .nav-channels {
-            display: flex;
-            margin-right: auto; /* Push channels to the left in RTL */
-        }
-        .nav-channels div {
-            background-color: #6a0dad; /* Purple for active channels */
-            color: white;
-            padding: 10px 20px;
-            margin: 0 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 3px;
-        }
-        .nav-channels .active {
-            background-color: #e60000; /* Red for the currently selected channel */
-        }
-        .video-container {
-            width: 100%;
-            height: calc(100vh - 60px); /* Adjust height based on header height */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000;
-        }
-        .video-player {
-            width: 90%; /* Adjust as needed */
-            height: 90%; /* Adjust as needed */
-            background-color: #333; /* Placeholder for the video */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            font-size: 2em;
-            /* The image shows a play button overlay, which you'd handle with JavaScript */
-        }
-        .play-button {
-            width: 0;
-            height: 0;
-            border-top: 50px solid transparent;
-            border-bottom: 50px solid transparent;
-            border-left: 80px solid #ccc; /* Grey play button */
-            cursor: pointer;
-        }
-    </style>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مشغل بث مباشر</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      background-color: #3b0a4c;
+      padding: 10px 0;
+    }
+
+    .nav button {
+      background-color: #6b21a8;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      margin: 0 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .nav button.red {
+      background-color: #b91c1c;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 30px;
+    }
+
+    .controls button {
+      background-color: #b91c1c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 75vh;
+    }
+
+    video {
+      width: 80%;
+      max-width: 800px;
+      background-color: black;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="header">
-        <button>اشتراك</button>
-        <div class="nav-channels">
-            <div id="channel-sp">SP</div>
-            <div id="channel-en">EN</div>
-            <div id="channel-3">بث 3</div>
-            <div id="channel-2">بث 2</div>
-            <div id="channel-1" class="active">بث 1</div> </div>
-    </div>
+  <div class="controls">
+    <button onclick="share()">مشاركة</button>
+    <button onclick="location.reload()">تحديث</button>
+  </div>
 
-    <div class="video-container">
-        <div class="video-player" id="player-placeholder">
-            <div class="play-button"></div> </div>
-    </div>
+  <div class="nav">
+    <button class="red" onclick="changeStream('https://example.com/stream1.m3u8')">بث 1</button>
+    <button onclick="changeStream('https://example.com/stream2.m3u8')">بث 2</button>
+    <button onclick="changeStream('https://example.com/stream3.m3u8')">بث 3</button>
+    <button onclick="changeStream('https://example.com/english.m3u8')">EN</button>
+    <button onclick="changeStream('https://example.com/spanish.m3u8')">SP</button>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const channels = document.querySelectorAll('.nav-channels div');
-            const playerPlaceholder = document.getElementById('player-placeholder');
+  <div class="video-container">
+    <video id="livePlayer" controls autoplay>
+      <source src="https://example.com/stream1.m3u8" type="application/x-mpegURL">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+  </div>
 
-            channels.forEach(channel => {
-                channel.addEventListener('click', function() {
-                    // Remove active class from all channels
-                    channels.forEach(ch => ch.classList.remove('active'));
-                    // Add active class to the clicked channel
-                    this.classList.add('active');
+  <script>
+    function changeStream(url) {
+      const player = document.getElementById('livePlayer');
+      player.src = url;
+      player.play();
+    }
 
-                    // --- IMPORTANT: This is where you'd change the stream source ---
-                    // For demonstration, let's just change the text or simulate loading
-                    const channelId = this.id;
-                    let streamSource = ''; // This will hold your actual stream URL
-
-                    switch(channelId) {
-                        case 'channel-sp':
-                            streamSource = 'https://your-spanish-stream.com/live'; // Replace with actual stream URL
-                            break;
-                        case 'channel-en':
-                            streamSource = 'https://your-english-stream.com/live'; // Replace with actual stream URL
-                            break;
-                        case 'channel-3':
-                            streamSource = 'https://your-arabic-stream-3.com/live'; // Replace with actual stream URL
-                            break;
-                        case 'channel-2':
-                            streamSource = 'https://your-arabic-stream-2.com/live'; // Replace with actual stream URL
-                            break;
-                        case 'channel-1':
-                            streamSource = 'https://your-arabic-stream-1.com/live'; // Replace with actual stream URL
-                            break;
-                        default:
-                            streamSource = '';
-                    }
-
-                    // Example: Embedding a public domain video (not a live stream)
-                    // For a real live stream, you'd use a specific embed code (iframe, video tag with HLS/DASH)
-                    if (streamSource) {
-                        // Clear previous content
-                        playerPlaceholder.innerHTML = '';
-                        // You'd typically use an iframe or a video tag here
-                        // For a real live stream, consider libraries like hls.js or video.js
-                        playerPlaceholder.innerHTML = `<iframe src="${streamSource}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" width="100%" height="100%"></iframe>`;
-                        // Or using a video tag (requires proper stream formats like HLS/DASH)
-                        /*
-                        playerPlaceholder.innerHTML = `
-                            <video controls autoplay width="100%" height="100%">
-                                <source src="${streamSource}" type="application/x-mpegURL"> Your browser does not support the video tag.
-                            </video>
-                        `;
-                        */
-                    } else {
-                        playerPlaceholder.innerHTML = '<div class="play-button"></div>'; // Show play button if no stream
-                    }
-                });
-            });
-
-            // Trigger click on the default active channel (بث 1) on load
-            document.getElementById('channel-1').click();
-        });
-    </script>
+    function share() {
+      navigator.clipboard.writeText(window.location.href);
+      alert("تم نسخ الرابط!");
+    }
+  </script>
 
 </body>
 </html>
