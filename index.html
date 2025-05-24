@@ -8,7 +8,6 @@
     <title>اون تايم سبورت 2 on time sport</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        /* تم تصحيح الأخطاء هنا، مثل display: none1 */
         :root {
             --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
             --plyr-color-main: #9c88ff;
@@ -132,14 +131,14 @@
 
         #albaplayer_share_channel {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
+            top: 0;
+            left: 0;
+            right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, .9);
             height: 100vh;
             text-align: center;
-            z-index: 9;
+            z-index: 10001;
         }
 
         .share-channel {
@@ -225,6 +224,16 @@
             justify-content: center;
             cursor: pointer;
         }
+
+        .showother {
+            display: none;
+            position: absolute;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
@@ -248,14 +257,10 @@
         <div class="albaplayer_videos_channel">
             <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
             <div id="showshare" style="display: block;">
-                <span onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">
-                    <div class="button share">مشاركة</div>
-                </span>
+                <div class="button share" onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">مشاركة</div>
             </div>
-            <div class="showother" id="showother" style="display: none;">
-                <span onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">
-                    <div class="button close">اغلاق</div>
-                </span>
+            <div class="showother" id="showother">
+                <div class="button close" onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">اغلاق</div>
                 <div id="albaplayer_share_channel">
                     <div class="share-channel">
                         <div class="albaplayer_share_title">كود التضمين</div>
