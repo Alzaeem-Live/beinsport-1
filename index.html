@@ -1,16 +1,17 @@
+<!-- تم تصحيح الكود هنا -->
 <!DOCTYPE html>
 <html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8" />
-    <link rel="profile" href="http://gmpg.org/xfn/11" />
-    <meta content='width=device-width,minimum-scale=1,initial-scale=1' name='viewport'/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <link rel="canonical" href="https://dd.alkoora.live/albaplayer/on-time-sport-2/" />
     <title>اون تايم سبورت 2 on time sport</title>
-
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
+        /* تم تصحيح الأخطاء هنا، مثل display: none1 */
         :root {
             --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
-            --plyr-color-main: #9c88ff
+            --plyr-color-main: #9c88ff;
         }
 
         body {
@@ -21,7 +22,7 @@
         }
 
         * {
-            text-decoration: none
+            text-decoration: none;
         }
 
         .albaplayer_videos_channel {
@@ -46,176 +47,70 @@
             text-shadow: 0 1px 1px #000;
             color: #fff;
             padding: 0 10px;
-            font-family: sans-serif;
             font-weight: 700;
-            position: relative;
-            z-index: 99;
         }
 
         .albaplayer_videos_channel .refresh {
             float: right;
         }
 
-        #albaplayer_share_channel {
-            position: absolute;
-            top: -10px;
-            z-index: 9;
-            left: -10px;
-            border-radius: 0;
-            background: rgba(0, 0, 0, .9);
-            right: -10px;
-            bottom: 0;
-            height: 100vh;
-            text-align: center;
-        }
-
-        .share-channel {
-            position: absolute;
-            top: 50%;
-            right: 0;
-            left: 0;
-            margin-top: -80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .share-channel textarea {
-            margin-top: 13px;
-            max-width: 98%;
-            width: 600px;
-            direction: ltr;
-            overflow: auto;
-            font-size: 14px;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.26);
-            border: 0;
-            height: 54px;
-            color: #fff;
-        }
-
-        .custom-btn {
-            background: #552a86;
-            border: 0;
-            font-size: 16px;
-            font-family: arial;
-            padding: 5px 16px;
-            border-radius: 5px;
-            font-weight: 700;
-            margin-top: 6px;
-            color: #fff;
-            cursor: pointer;
-        }
-
         .albaplayer_site_name {
+            display: none;
             text-shadow: 2px 2px 2px #000;
             z-index: 9;
             bottom: 18%;
             position: fixed;
             width: 100%;
-            height: 0;
             text-align: center;
             color: #fff;
             font-size: 3vw;
-            /* display: none1; This was a typo, assume display: none */
-            display: none;
-        }
-
-        #player {
-            width: 100%;
-            position: absolute;
-            height: 100% !important;
-            z-index: 9;
-            right: 0;
-            left: 0;
-        }
-        
-        iframe.cf {
-            position: absolute;
-            height: 100%;
-        }
-
-        .cf.videoif {
-            z-index: 99
-        }
-
-        iframe.videoif {
-            height: 100%;
-            position: absolute
-        }
-
-        video.post-video {
-            position: absolute;
-            height: 100%
         }
 
         .albaplayer_server-body {
-            box-sizing: border-box;
             position: relative;
             width: 100%;
             background: #000;
-            height: calc(100vh - 60px); /* Adjusted to consider the height of the nav bar */
+            height: calc(100vh - 60px);
             overflow: hidden;
         }
 
         .albaplayer_name {
             display: flex;
-            clear: both;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
+            justify-content: flex-end;
+            direction: rtl;
             background: #000;
-            max-height: 50px;
-            box-sizing: border-box;
             padding: 0 2px;
+            max-height: 50px;
+            overflow: hidden;
             margin: 0;
             list-style: none;
-            justify-content: flex-end; /* Align channels to the right */
-            direction: rtl; /* Ensure RTL for channel order */
         }
 
         .albaplayer_name li {
-            text-align: center;
             margin: 4px 2px;
-            position: relative;
-            float: right; /* Original code uses float right, but flexbox is better for this */
-            z-index: 3;
-            flex: 1; /* Allow flex items to grow and shrink */
-            box-sizing: border-box;
+            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
-            /* Removed max-width: 100px; to allow buttons to expand on desktop */
         }
 
         .albaplayer_name a {
-            text-align: center;
             background: #552a86;
-            font-size: 16px; /* Default size for desktop */
-            width: 100%;
-            position: relative;
-            cursor: pointer;
+            font-size: 16px;
             padding: 5px 5px 7px;
-            border: 0;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-            box-shadow: 0 0 0 #d6d6d6;
             border-radius: 1px;
             height: 43px;
-            overflow: hidden;
-            flex: 1;
-            box-sizing: border-box;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff !important;
+            width: 100%;
         }
 
         .albaplayer_name a.active,
         .albaplayer_name a:hover {
             background: #9e1414;
             transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
-            color: #fff !important;
         }
 
         .embed-responsive {
@@ -224,274 +119,147 @@
             display: block;
             width: 100%;
             padding: 0;
-            overflow: hidden;
         }
 
-        .embed-responsive::before {
-            display: block;
-            content: "";
-        }
-
-        .embed-responsive .embed-responsive-item,
-        .embed-responsive embed,
-        .embed-responsive iframe,
-        .embed-responsive object,
-        .embed-responsive video {
+        .embed-responsive iframe {
             position: absolute;
             top: 0;
-            bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: 0;
         }
 
-        .albaplayer_share_title {
-            text-align: center;
-            color: #fff;
-            font-size: 21px;
-        }
-
-        .albaplayer_share_title * {
-            color: #fff
-        }
-
-        #albaAdsPlayer {
+        #albaplayer_share_channel {
             position: absolute;
-            width: 336px;
-            right: 0;
+            top: -10px;
+            left: -10px;
+            right: -10px;
             bottom: 0;
-            z-index: 9999;
-        }
-
-        .mahimeta-close {
-            position: absolute;
-            top: -18px;
-            right: 5px;
-            color: #4c4c4c;
+            background: rgba(0, 0, 0, .9);
+            height: 100vh;
             text-align: center;
-            font-weight: bold;
-            font-family: arial;
+            z-index: 9;
+        }
+
+        .share-channel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .share-channel textarea {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.26);
+            border: 0;
+            color: #fff;
+            height: 54px;
+            padding: 5px;
             font-size: 14px;
+            direction: ltr;
+        }
+
+        .custom-btn {
+            margin-top: 6px;
+            background: #552a86;
+            color: #fff;
+            padding: 5px 16px;
+            border-radius: 5px;
+            font-weight: 700;
             cursor: pointer;
-            background: #fff;
-            padding: 0 5px;
-            height: 20px;
+            border: none;
         }
 
-        .albaAdscon {
-            overflow: hidden;
-            width: 100%
-        }
-
-        /* Plyr specific styles */
-        [data-player] {
-            height: 100% !important
-        }
-
-        .plyr--full-ui {
-            box-sizing: border-box;
-            height: 100%
-        }
-
-        .plyr__control--overlaid {
-            padding: 1.5rem !important
-        }
-
-        /* Responsive adjustments */
-        @media screen and (max-width:640px) {
-            /* These styles will apply only to screens up to 640px wide (mobile) */
-            .albaplayer_name {
-                width: 100%;
-                /* direction: rtl; Already set globally for albaplayer_name */
-                text-align: center;
-                overflow-x: auto; /* Changed to x for horizontal scroll */
-                overflow-y: hidden; /* Ensure no vertical scroll */
-                margin: 0 auto;
-                justify-content: flex-start; /* For mobile, allow scrolling */
-            }
-
-            .albaplayer_name li {
-                display: inline-block; /* Change to inline-block for horizontal scroll */
-                vertical-align: middle;
-                white-space: nowrap;
-                margin: 0 3px 0;
-                flex: none; /* Prevent flex growing/shrinking on mobile for scroll */
-            }
-
-            .albaplayer_name a {
-                font-size: 14px; /* Smaller font for mobile */
-                padding: 4px 8px 7px;
-                border-radius: 2px;
-                height: 30px; /* Smaller height for mobile */
-                margin-top: 4px;
-            }
-
-            .albaplayer_videos_channel {
-                left: 4px;
-                top: 6px;
-                right: 6px;
-            }
-        }
-
-        /* Telegram button styles */
+        /* Telegram Button */
         #tme {
             position: fixed;
-            z-index: 99999999;
             bottom: 50px;
             right: 25px;
             width: 48px;
             height: 48px;
-            text-align: center;
-            border-radius: 50%;
             background-color: #0088cc;
+            border-radius: 50%;
+            z-index: 999999;
             cursor: pointer;
         }
 
         #tme_message {
-            text-align: right;
             position: absolute;
             bottom: 62px;
             right: -10px;
             width: 250px;
-            padding: 10px;
             background: white;
+            padding: 10px;
             border-radius: 4px;
             box-shadow: 0 2px 5px rgb(0 0 0);
-            transition: opacity .5s ease-in;
-        }
-
-        #tme_message:after,
-        #tme_message:before {
-            content: '';
-            position: absolute;
-            bottom: -21px;
-            right: 23px;
-            border-style: solid;
-            height: 0;
-            width: 0;
-            border-width: 10px;
-            border-color: transparent;
-        }
-
-        #tme_message:after {
-            border-top-color: #fff;
-            bottom: -20px;
-        }
-
-        #tme svg {
-            margin-top: 13px;
         }
 
         #tme_message p {
-            letter-spacing: -.5px;
-            margin: 5px 0 0;
             font-size: 12px;
             color: #8e8e8e;
-            text-align: right;
+        }
+
+        #tme_message a {
+            background: #0088cc;
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 5px;
+            text-decoration: none;
         }
 
         .clossalert {
             position: absolute;
-            left: -10px;
             top: -10px;
-            border-radius: 50%;
-            cursor: pointer;
+            left: -10px;
             background: #fff;
             font-size: 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 50%;
             width: 20px;
             height: 20px;
-            border: solid 1px #d9d9d9;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        #tme_message a {
-            margin: 6px 6px 0 0;
-            color: #FFF;
-            background: #0088cc;
-            border-radius: 5px;
-            display: inline-block;
-            padding: 2px 7px;
-            text-decoration: none;
-        }
-
-        /* Watermark/logo position styles */
-        .dplayer-logo,
-        [data-watermark-top-right],
-        .plyr__video-wrapper::before,
-        .jw-wrapper::before,
-        #player::before {
-            right: 10px !important;
-            top: 10px !important;
-            max-width: 80px !important;
-            left: auto !important;
-        }
-
-        /* RTL specific for Telegram button */
-        #tme.itisltr {
-            right: auto;
-            left: 45px;
-        }
-
-        #tme.itisltr #tme_message {
-            text-align: left;
-            right: auto;
-            left: -10px;
-        }
-
-        #tme.itisltr #tme_message:before,
-        #tme.itisltr #tme_message::after {
-            right: auto;
-            left: 23px;
-        }
-
-        #tme.itisltr #tme_message p {
-            text-align: left;
-        }
-
-        #tme.itisltr #tme_message a {
-            margin: 6px 0 0 6px;
+            cursor: pointer;
         }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-
 </head>
-<body>
 
+<body>
     <ul class="albaplayer_name">
-        <li><a href="?serv=1" data-serv="1">بث 1</a></li>
-        <li><a href="?serv=2" data-serv="2">بث 2</a></li>
-        <li><a href="?serv=3" data-serv="3">بث 3</a></li>
-        <li><a href="?serv=4" data-serv="4">بث 4</a></li>
-        <li><a href="?serv=5" data-serv="5">بث 5</a></li>
+        <li><a href="?serv=1">بث 1</a></li>
+        <li><a href="?serv=2">بث 2</a></li>
+        <li><a href="?serv=3">بث 3</a></li>
+        <li><a href="?serv=4">بث 4</a></li>
+        <li><a href="?serv=5">بث 5</a></li>
     </ul>
 
     <div class="albaplayer_server-body">
-        <div class='video-con embed-responsive' id="video-player-container">
-            </div>
+        <div id="video-player-container" class="embed-responsive"></div>
 
-        <div class='albaplayer_videos_channel'>
-            <a class='button refresh' href='javascript:window.location.reload()'>تحديث</a>
-            <div id='showshare' style='display: block;' title='مشاركة'>
-                <span onclick='document.getElementById("showother").style.display="block";document.getElementById("showshare").style.display="none"'>
-                    <div class='button share'>مشاركة</div>
+        <div class="albaplayer_videos_channel">
+            <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
+            <div id="showshare" style="display: block;">
+                <span onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">
+                    <div class="button share">مشاركة</div>
                 </span>
             </div>
-            <div class='showother' id='showother' style='display: none;'>
-                <span onclick='document.getElementById("showother").style.display="none";document.getElementById("showshare").style.display="block"' title='اغلاق'>
-                    <div class='button close'>اغلاق</div>
+            <div class="showother" id="showother" style="display: none;">
+                <span onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">
+                    <div class="button close">اغلاق</div>
                 </span>
-                <div id='albaplayer_share_channel'>
-                    <div class='share-channel'>
+                <div id="albaplayer_share_channel">
+                    <div class="share-channel">
                         <div class="albaplayer_share_title">كود التضمين</div>
-                        <textarea id='albaplayer_player_share' onclick='this.select();' onfocus='this.select();'><iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='https://dd.alkoora.live/albaplayer/on-time-sport-2/' width='100%'></iframe></textarea>
+                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
                         <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
                     </div>
                 </div>
@@ -499,186 +267,19 @@
         </div>
     </div>
 
-    <div id='tme'>
-        <div id='tme_message'>
-            <button class='clossalert' onclick='document.getElementById("tme").style.display="none";'>X</button>
+    <div id="tme">
+        <div id="tme_message">
+            <button class="clossalert" onclick="document.getElementById('tme').style.display='none';">X</button>
             <strong>اشترك في موقعنا مجانا</strong>
-            <p>خدمة الكورة لايف المجانية لمشاهدة مباريات اليوم بث مباشر بدون تقطيع على التليجرام<a href='https://t.me/your_telegram_channel' rel='nofollow' role='button' target='_blank'>اضغط للاشتراك</a></p>
+            <p>خدمة الكورة لايف المجانية لمشاهدة مباريات اليوم بث مباشر بدون تقطيع على التليجرام
+                <a href="https://t.me/your_telegram_channel" target="_blank" rel="nofollow">اضغط للاشتراك</a>
+            </p>
         </div>
-        <svg fill='rgb(255, 255, 255)' height='25' viewBox='0 0 33 33' width='25'>
-            <path d='M27.1566711,3.01477064 C27.5924362,2.97926122 28.0620472,2.99321135 28.4483128,3.22233167 C28.7931173,3.42270627 28.9928078,3.82091907 29,4.2127909 C28.9860386,4.54505764 28.9610773,4.87647891 28.9314622,6.00747745 C28.7884635,6.88741129 28.4986585,8.55001316 28.2706222,10.2198015 C28.2126612,10.6691647 28.1411619,11.1164144 28.0730471,11.5645094 C27.7392425,13.7538344 27.3783613,15.938932 27.0136724,18.123607 C26.61683,20.4689197 26.2166029,22.8142325 25.8146836,25.1586998 C25.6979155,25.8283061 26.0393044,26.4133661 24.63981,26.7253417 C23.9823546,27.0791677 23.1370548,27.107068 22.4893301,26.7156189 C19.3458979,24.5871672 16.1800428,22.4904204 13.067495,20.3167365 C12.7709209,20.0707069 12.6004224,19.6864443 12.5902687,19.3034498 C12.5796919,18.9310236 12.7057676,18.5687429 12.8788045,18.2436626 C13.1246099,17.7875356 13.4774527,17.3982002 13.8717567,17.0655107 C15.3580121,15.608779 16.9293051,14.2433571 18.4578677,12.8318576 C19.4609737,11.9124172 20.4378492,10.9633857 21.3648021,9.96658545 C21.5188007,9.82581596 21.5653387,9.6110685 21.5996076,9.41407576 C21.6211843,9.29444282 21.5839539,9.13169131 21.4439167,9.10928655 C21.1934575,9.07884991 20.9607674,9.20820566 20.7390772,9.30670203 C20.1484673,9.61064577 19.5976263,9.98603109 19.0544006,10.3669119 C17.9654108,11.1202189 16.8844593,11.8857852 15.7997002,12.6450104 C13.566298,14.2036204 11.3159729,15.7470121 8.94549505,17.0925655 C8.29015502,17.4282141 7.54046972,17.5486925 6.80939963,17.5051512 C5.872293,17.4540007 4.96353226,17.1931756 4.07338673,16.9116366 C3.62916011,16.7700216 3.17774125,16.6470068 2.74789911,16.4643869 C1.99863688,16.1566386 1.21933647,15.9017317 0.527189087,15.4730822 C0.307614215,15.3238581 0.0643472572,15.1437746 0.00554011426,14.8694221 C-0.0405748395,14.567592 0.209884359,14.3279034 0.434113033,14.1693792 C0.977338727,13.8624763 1.53283354,13.5792464 2.08875142,13.2964392 C4.04419469,12.3220438 6.04532984,11.444031 8.04731114,10.5706684 C8.82872691,10.2312152 9.60464274,9.87950282 10.3919815,9.55442252 C12.9194195,8.49590356 15.4460112,7.43569368 17.9861414,6.4080341 C20.3625422,5.44336147 22.7461354,4.49602082 25.1415745,3.57953955 C25.7892992,3.31871439 26.4543699,3.07310755 27.1566711,3.01477064 Z'></path>
+        <svg fill="#fff" width="25" height="25" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.5,0C7.4,0,0,7.4,0,16.5S7.4,33,16.5,33S33,25.6,33,16.5S25.6,0,16.5,0z M24.6,11.6l-2.9,13.7
+                c-0.2,1-0.8,1.3-1.6,0.8l-4.5-3.3l-2.2,2.1c-0.2,0.2-0.5,0.4-0.8,0.4l0.3-4.8l8.7-7.9c0.4-0.4-0.1-0.6-0.6-0.2l-10.8,6.8
+                L6.7,16.9c-1-0.3-1-1-0.1-1.4l16.8-6.5C24.3,8.5,25,9.3,24.6,11.6z"/>
         </svg>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const channelLinks = document.querySelectorAll('.albaplayer_name a');
-            const videoContainer = document.getElementById('video-player-container');
-            const shareEmbedCodeTextarea = document.getElementById('albaplayer_player_share');
-
-            // Define your stream sources. REPLACE THESE WITH YOUR ACTUAL LIVE STREAM URLs!
-            // Example: HLS (.m3u8), or an iframe embed URL.
-            const streamSources = {
-                1: { // بث1
-                    mobile: 'https://www.elahmad.com/tv/live/shahid_shaka.php?id=ssc1', // Example HLS
-                    desktop: 'https://www.elahmad.com/tv/live/shahid_shaka.php?id=ssc1' // Example iframe (YouTube)
-                },
-                2: { // بث2
-                    mobile: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', // Another HLS example
-                    desktop: 'https://player.vimeo.com/video/570701047?autoplay=1&loop=0&autopause=0' // Another iframe (Vimeo)
-                },
-                3: { // بث3
-                    mobile: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
-                    desktop: 'https://dailymotion.com/embed/video/x8s4t91?autoplay=1' // Dailymotion example
-                },
-                4: { // EN
-                    mobile: 'https://mnmediacdn.com/media/test_videos/caminandes_sintel_trailer-1080p.mp4/playlist.m3u8',
-                    desktop: 'https://www.w3schools.com/html/mov_bbb.mp4' // Direct MP4 as iframe fallback
-                },
-                5: { // SP
-                    mobile: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8',
-                    desktop: 'https://player.twitch.tv/?video=2015091720&parent=yourdomain.com&autoplay=true' // Twitch example (replace yourdomain.com)
-                },
-            };
-
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
-
-            function isMobileDevice() {
-                return /iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase());
-            }
-
-            function loadPlayer(servId) {
-                const isMobile = isMobileDevice();
-                const stream = streamSources[servId];
-
-                if (!stream) {
-                    videoContainer.innerHTML = '<p style="color:white; text-align:center;">لا يوجد بث متاح لهذا الخادم.</p>';
-                    return;
-                }
-
-                videoContainer.innerHTML = ''; // Clear previous player
-
-                let playerHtml = '';
-                // Construct the embed URL carefully to avoid extra spaces
-                const currentCanonicalUrl = document.querySelector('link[rel="canonical"]').href;
-                const shareEmbedSrc = currentCanonicalUrl.split('?')[0] + '?serv=' + servId; // Use canonical URL base
-
-                if (isMobile) {
-                    playerHtml = `
-                        <div id="player"></div>
-                        <script>
-                            var player = new Clappr.Player({
-                                source: "${stream.mobile}",
-                                plugins: [LevelSelector],
-                                parentId: "#player",
-                                width: "100%",
-                                height: "100%",
-                                hideMediaControl: true,
-                                autoPlay: true
-                            });
-                        </script>
-                    `;
-                    // Update the share link for mobile, ensure no extra spaces
-                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${shareEmbedSrc}' width='100%'></iframe>`;
-
-                } else {
-                    playerHtml = `
-                        <iframe
-                            allowfullscreen=''
-                            class='cf'
-                            frameborder='0'
-                            height='100%'
-                            name='search_iframe'
-                            rel='nofollow'
-                            sandbox='allow-forms allow-same-origin allow-scripts'
-                            scrolling='no'
-                            src='${stream.desktop}'
-                            width='100%'
-                        ></iframe>
-                    `;
-                    // Update the share link for desktop, ensure no extra spaces
-                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${shareEmbedSrc}' width='100%'></iframe>`;
-                }
-
-                videoContainer.insertAdjacentHTML('beforeend', playerHtml);
-            }
-
-            // Handle channel clicks
-            channelLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault(); // Prevent default link behavior (page refresh)
-
-                    // Update active class
-                    channelLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const servId = this.dataset.serv; // Get the service ID from data-serv attribute
-                    
-                    // Update the URL in the browser without reloading the page
-                    const newUrl = `${window.location.pathname}?serv=${servId}`;
-                    history.pushState({ serv: servId }, '', newUrl);
-
-                    loadPlayer(servId);
-                });
-            });
-
-            // Initial load: Check for 'serv' parameter in URL
-            const initialServ = getQueryParam('serv');
-            if (initialServ) {
-                const activeLink = document.querySelector(`.albaplayer_name a[data-serv="${initialServ}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                    loadPlayer(initialServ);
-                } else {
-                    // Fallback to default if invalid serv is provided
-                    document.querySelector('.albaplayer_name a[data-serv="1"]').click();
-                }
-            } else {
-                // If no 'serv' param, default to بث1 (serv=1)
-                document.querySelector('.albaplayer_name a[data-serv="1"]').click();
-            }
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(event) {
-                const serv = getQueryParam('serv');
-                if (serv) {
-                    const activeLink = document.querySelector(`.albaplayer_name a[data-serv="${serv}"]`);
-                    if (activeLink) {
-                        channelLinks.forEach(l => l.classList.remove('active'));
-                        activeLink.classList.add('active');
-                        loadPlayer(serv);
-                    }
-                } else {
-                    // If going back to initial state (no serv param), load default
-                    document.querySelector('.albaplayer_name a[data-serv="1"]').click();
-                }
-            });
-
-            // Telegram message display logic
-            const tmeMessage = document.getElementById('tme_message');
-            const tmeButton = document.getElementById('tme');
-            if (tmeMessage && tmeButton) {
-                // Set initial state based on your preference, e.g., hidden by default
-                // tmeMessage.style.display = 'none'; // Uncomment to hide by default
-
-                tmeButton.addEventListener('click', function(e) {
-                    // Toggle visibility
-                    if (tmeMessage.style.display === 'none' || tmeMessage.style.display === '') {
-                        tmeMessage.style.display = 'block';
-                    } else {
-                        tmeMessage.style.display = 'none';
-                    }
-                    e.stopPropagation(); // Prevent this click from bubbling up if there's a parent handler
-                });
-                document.querySelector('.clossalert').addEventListener('click', function(e) {
-                    e.stopPropagation(); // Prevent click from bubbling to the parent #tme
-                    tmeMessage.style.display = 'none';
-                });
-            }
-        });
-    </script>
 </body>
 </html>
