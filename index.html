@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-  <title>اون تايم سبورت 2 on time sport</title>
+  <title>اون تايم سبورت 2t</title>
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <style>
     :root {
@@ -15,52 +15,51 @@
       margin: 0;
       background: #000;
       font-family: sans-serif;
-    }
-
-    .albaplayer_server-body {
-      position: relative;
-      width: 100%;
-      background: #000;
-      height: calc(100vh - 60px);
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .albaplayer_name {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       background: #000;
-      padding: 0 2px;
-      max-height: 50px;
-      overflow: hidden;
-      margin: 0;
+      padding: 10px;
       list-style: none;
+      width: 100%;
+      flex-wrap: wrap;
     }
 
     .albaplayer_name li {
-      margin: 4px 2px;
-      flex: 1;
-      display: flex;
-      justify-content: center;
+      margin: 5px;
     }
 
     .albaplayer_name a {
       background: #552a86;
       font-size: 16px;
-      padding: 5px 5px 7px;
-      border-radius: 1px;
+      padding: 5px 10px;
+      border-radius: 3px;
       height: 43px;
       font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff !important;
-      width: 100%;
+      text-decoration: none;
     }
 
     .albaplayer_name a.active,
     .albaplayer_name a:hover {
       background: #9e1414;
       transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
+    }
+
+    .albaplayer_server-body {
+      background: #000;
+      width: 720px; /* العرض الثابت */
+      height: 405px; /* الارتفاع الثابت */
+      max-width: 100%; /* لتناسب الشاشات الصغيرة */
+      margin-bottom: 20px;
     }
 
     #player-container {
@@ -72,21 +71,7 @@
       width: 100% !important;
       height: 100% !important;
       background: #000;
-    }
-
-    /* تخصيص شكل الفيديو على الهاتف فقط */
-    @media (max-width: 768px) {
-      .albaplayer_server-body {
-        height: auto;
-      }
-
-      #player-container {
-        height: auto;
-      }
-
-      video, .plyr__video-embed {
-        height: 220px !important;
-      }
+      object-fit: contain; /* لتناسب الفيديو داخل الإطار بدون تمدد */
     }
   </style>
 </head>
