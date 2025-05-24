@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
@@ -12,9 +12,7 @@
             font-family: sans-serif;
             margin: 0;
         }
-        * {
-            text-decoration: none;
-        }
+
         .albaplayer_name {
             display: flex;
             justify-content: flex-end;
@@ -26,12 +24,14 @@
             margin: 0;
             list-style: none;
         }
+
         .albaplayer_name li {
             margin: 4px 2px;
             flex: 1;
             display: flex;
             justify-content: center;
         }
+
         .albaplayer_name a {
             background: #552a86;
             font-size: 16px;
@@ -45,12 +45,13 @@
             color: #fff !important;
             width: 100%;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .albaplayer_name a.active,
-        .albaplayer_name a:hover {
-            background: #9e1414;
-            transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
+
+        .albaplayer_name a.active {
+            background: #9e1414 !important;
         }
+
         .albaplayer_server-body {
             position: relative;
             width: 100%;
@@ -58,6 +59,7 @@
             height: calc(100vh - 60px);
             overflow: hidden;
         }
+
         .embed-responsive {
             height: 100%;
             position: relative;
@@ -65,10 +67,12 @@
             width: 100%;
             padding: 0;
         }
+
         #video-player-container {
             width: 100%;
             height: 100%;
         }
+
         .albaplayer_videos_channel {
             position: absolute;
             z-index: 999;
@@ -77,6 +81,7 @@
             right: 8px;
             height: 0;
         }
+
         .albaplayer_videos_channel .button {
             background: #9e1414;
             cursor: pointer;
@@ -92,9 +97,11 @@
             padding: 0 10px;
             font-weight: 700;
         }
+
         .albaplayer_videos_channel .refresh {
             float: right;
         }
+
         .albaplayer_videos_channel .share {
             float: left;
             cursor: pointer;
@@ -104,7 +111,6 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 </head>
 
 <body>
@@ -133,7 +139,9 @@
                 <div id="albaplayer_share_channel">
                     <div class="share-channel">
                         <div class="albaplayer_share_title">كود التضمين</div>
-                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
+                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly>
+<iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe>
+                        </textarea>
                         <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
                     </div>
                 </div>
@@ -144,25 +152,30 @@
     <script>
         const links = document.querySelectorAll('.albaplayer_name a');
 
+        // مشغل Clappr
         let player = new Clappr.Player({
             source: links[0].getAttribute('data-url'),
             parentId: '#video-player-container',
             width: '100%',
             height: '100%',
             autoPlay: true,
+            mediacontrol: { seekbar: "#00ff00" },
             plugins: [ClapprLevelSelector],
             levelSelectorConfig: {
-                title: 'الجودة'
-            }
+                title: 'الجودة',
+            },
         });
 
+        // عند الضغط على زر البث
         links.forEach(link => {
-            link.addEventListener('click', function() {
-                links.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
 
-                const url = this.getAttribute('data-url');
-                player.load(url);
+                links.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                const newSrc = link.getAttribute('data-url');
+                player.load(newSrc);
             });
         });
     </script>
