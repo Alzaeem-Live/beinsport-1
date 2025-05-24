@@ -46,6 +46,7 @@
             color: #fff;
             padding: 0 10px;
             font-weight: 700;
+            user-select: none;
         }
 
         .albaplayer_videos_channel .refresh {
@@ -178,6 +179,7 @@
             font-weight: 700;
             cursor: pointer;
             border: none;
+            user-select: none;
         }
 
         .button.close {
@@ -268,20 +270,16 @@
         <div class="albaplayer_videos_channel">
             <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
 
-            <div id="showshare" style="display: block;">
-                <span onclick="document.getElementById('showother').style.display='block';document.getElementById('showshare').style.display='none'">
-                    <div class="button share">مشاركة</div>
-                </span>
+            <div id="button-share-container" style="display: flex; align-items: center;">
+                <button id="btn-share" class="button share" type="button" style="margin-left: 10px;">مشاركة</button>
+                <button id="btn-cancel" class="button close" type="button" style="display: none; margin-left: 10px;">إلغاء</button>
             </div>
 
-            <div class="showother" id="showother" style="display: none;">
-                <div id="albaplayer_share_channel">
-                    <div class="share-channel">
-                        <div class="albaplayer_share_title">كود التضمين</div>
-                        <textarea onclick="this.select()" id="albaplayer_player_share" readonly><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
-                        <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
-                        <div class="button close" onclick="document.getElementById('showother').style.display='none';document.getElementById('showshare').style.display='block'">اغلاق</div>
-                    </div>
+            <div id="albaplayer_share_channel" style="display: none;">
+                <div class="share-channel">
+                    <div class="albaplayer_share_title">كود التضمين</div>
+                    <textarea onclick="this.select()" id="albaplayer_player_share" readonly><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-2/" width="100%"></iframe></textarea>
+                    <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
                 </div>
             </div>
         </div>
@@ -301,5 +299,23 @@
                 L6.7,16.9c-1-0.3-1-1-0.1-1.4l16.8-6.5C24.3,8.5,25,9.3,24.6,11.6z"/>
         </svg>
     </div>
+
+    <script>
+        const btnShare = document.getElementById('btn-share');
+        const btnCancel = document.getElementById('btn-cancel');
+        const shareChannel = document.getElementById('albaplayer_share_channel');
+
+        btnShare.addEventListener('click', () => {
+            shareChannel.style.display = 'block';
+            btnShare.style.display = 'none';
+            btnCancel.style.display = 'inline-block';
+        });
+
+        btnCancel.addEventListener('click', () => {
+            shareChannel.style.display = 'none';
+            btnShare.style.display = 'inline-block';
+            btnCancel.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
