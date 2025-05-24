@@ -1,163 +1,63 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-  <title>اون تايم سبورت 2 on time sport</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-  <style>
-    :root {
-      --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
-      --plyr-color-main: #9c88ff;
-    }
+.plyr__controls {
+  position: absolute !important;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5); /* خلفية شفافة لشريط التحكم */
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
 
-    body {
-      margin: 0;
-      background: #000;
-      font-family: sans-serif;
-    }
+#player-container {
+  position: relative; /* عشان عناصر التحكم المطلقة تتموضع بالنسبة له */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .albaplayer_server-body {
-      position: relative;
-      width: 100%;
-      background: #000;
-      height: calc(100vh - 60px);
-      overflow: hidden;
-    }
+video, .plyr__video-embed {
+  width: 80% !important;
+  height: auto !important;
+  max-height: 100%;
+  background: #000;
+  display: block;
+}
 
-    .albaplayer_name {
-      display: flex;
-      justify-content: flex-end;
-      background: #000;
-      padding: 0 2px;
-      max-height: 50px;
-      overflow: hidden;
-      margin: 0;
-      list-style: none;
-    }
+/* لضبط ارتفاع الحاوية بحيث تترك مكان لشريط التحكم */
+.albaplayer_server-body {
+  position: relative;
+  width: 100%;
+  background: #000;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
 
-    .albaplayer_name li {
-      margin: 4px 2px;
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
+/* نرفع الارتفاع قليلاً عشان نترك مكان لشريط التحكم */
+#player-container {
+  height: calc(100% - 40px); /* خصم ارتفاع شريط التحكم تقريبا */
+}
 
-    .albaplayer_name a {
-      background: #552a86;
-      font-size: 16px;
-      padding: 5px 5px 7px;
-      border-radius: 1px;
-      height: 43px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff !important;
-      width: 100%;
-    }
+/* على الموبايل */
+@media (max-width: 768px) {
+  .albaplayer_server-body {
+    height: auto;
+  }
 
-    .albaplayer_name a.active,
-    .albaplayer_name a:hover {
-      background: #9e1414;
-      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
-    }
+  #player-container {
+    height: auto;
+  }
 
-    #player-container {
-      width: 100%;
-      height: 100%;
-      display: flex;               /* لجعل الحاوية تستخدم Flexbox */
-      justify-content: center;     /* توسيط أفقياً */
-      align-items: center;         /* توسيط عمودياً */
-    }
+  video, .plyr__video-embed {
+    height: 220px !important;
+    width: 100% !important;
+  }
 
-    video, .plyr__video-embed {
-      width: 80% !important;       /* تصغير العرض إلى 80% */
-      height: auto !important;     /* الارتفاع تلقائي للحفاظ على نسبة العرض للارتفاع */
-      max-height: 100%;            /* لا يتجاوز ارتفاع الحاوية */
-      background: #000;
-    }
-
-    /* تخصيص شكل الفيديو على الهاتف فقط */
-    @media (max-width: 768px) {
-      .albaplayer_server-body {
-        height: auto;
-      }
-
-      #player-container {
-        height: auto;
-      }
-
-      video, .plyr__video-embed {
-        height: 220px !important;
-        width: 100% !important; /* عشان على الموبايل ياخد العرض كامل */
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <ul class="albaplayer_name">
-    <li><a href="#" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
-    <li><a href="#" data-stream="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8">بث 2</a></li>
-    <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
-  </ul>
-
-  <div class="albaplayer_server-body">
-    <div id="player-container">
-      <video id="player" playsinline controls></video>
-    </div>
-  </div>
-
-  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    const playerContainer = document.getElementById("player-container");
-    let plyr;
-    let hls;
-
-    function loadHLS(url) {
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
-      if (plyr) {
-        plyr.destroy();
-      }
-
-      playerContainer.innerHTML = '<video id="player" playsinline controls></video>';
-      const video = document.getElementById("player");
-      plyr = new Plyr(video);
-
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = url;
-        video.addEventListener("loadedmetadata", () => video.play());
-      } else {
-        alert("عذراً، المتصفح لا يدعم تشغيل البث المباشر.");
-      }
-    }
-
-    // تحميل البث الأول تلقائياً
-    const firstBtn = document.querySelector(".albaplayer_name a.active");
-    if (firstBtn) {
-      loadHLS(firstBtn.getAttribute("data-stream"));
-    }
-
-    // التعامل مع الأزرار
-    document.querySelectorAll(".albaplayer_name a").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.preventDefault();
-        document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
-        btn.classList.add("active");
-        loadHLS(btn.getAttribute("data-stream"));
-      });
-    });
-  </script>
-</body>
-</html>
+  .plyr__controls {
+    position: relative !important;
+    background: transparent;
+    padding: 0;
+  }
+}
