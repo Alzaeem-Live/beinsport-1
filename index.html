@@ -17,7 +17,8 @@
       font-family: sans-serif;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .albaplayer_name {
@@ -29,6 +30,8 @@
       width: 100%;
       flex-wrap: wrap;
       z-index: 10;
+      height: 60px;
+      box-sizing: border-box;
     }
 
     .albaplayer_name li {
@@ -58,11 +61,10 @@
     .albaplayer_server-body {
       background: #000;
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 60px); /* خصم مساحة الزرائر */
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
       overflow: hidden;
     }
 
@@ -81,11 +83,6 @@
       height: auto !important;
       object-fit: contain;
       background: #000;
-    }
-
-    body.fullscreen {
-      padding: 0;
-      margin: 0;
     }
   </style>
 </head>
