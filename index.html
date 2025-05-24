@@ -74,7 +74,31 @@
       background: #000;
     }
 
-    /* Media Query لأجهزة الهاتف */
+    /* زر التشغيل في المنتصف وبشكل أنيق */
+    .video-js .vjs-big-play-button {
+      position: absolute;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      font-size: 5em !important;
+      width: 80px !important;
+      height: 80px !important;
+      border: none;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+      z-index: 10;
+    }
+
+    .video-js .vjs-big-play-button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* موبايل */
     @media (max-width: 768px) {
       .albaplayer_name {
         flex-direction: column;
@@ -92,7 +116,7 @@
       }
 
       .albaplayer_server-body {
-        height: calc(100vh - 160px); /* مساحة إضافية للقائمة */
+        height: calc(100vh - 160px);
       }
 
       .video-js {
@@ -107,6 +131,7 @@
   <ul class="albaplayer_name">
     <li><a href="#" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
     <li><a href="#" data-stream="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8">بث 2</a></li>
+    <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
     <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
   </ul>
 
@@ -125,41 +150,17 @@
   <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
   <script src="https://unpkg.com/@videojs/http-streaming@3.3.0/dist/videojs-http-streaming.min.js"></script>
   <script>
-    let player;
+    const player = videojs('my-video');
 
     function loadStream(url) {
-      if (player) {
-        player.dispose(); // Dispose of the existing player instance
-      }
-
-      // Create a new video element for the player
-      const playerContainer = document.getElementById('player-container');
-      playerContainer.innerHTML = `
-        <video
-          id="my-video"
-          class="video-js"
-          controls
-          preload="auto"
-          data-setup="{}"
-        ></video>
-      `;
-
-      player = videojs('my-video', {}, function() {
-        this.src({
-          src: url,
-          type: 'application/x-mpegURL'
-        });
-        this.play();
+      player.src({
+        src: url,
+        type: 'application/x-mpegURL'
       });
+      player.play();
     }
 
-    // Load the first stream automatically
-    const firstBtn = document.querySelector(".albaplayer_name a.active");
-    if (firstBtn) {
-      loadStream(firstBtn.getAttribute("data-stream"));
-    }
-
-    // Handle button clicks
+    // ربط الأزرار بتغيير البث
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
       btn.addEventListener("click", e => {
         e.preventDefault();
@@ -169,7 +170,15 @@
       });
     });
 
-    // Add device class
+    // تشغيل أول بث تلقائيًا
+    window.addEventListener('DOMContentLoaded', () => {
+      const firstBtn = document.querySelector(".albaplayer_name a.active");
+      if (firstBtn) {
+        firstBtn.click();
+      }
+    });
+
+    // إضافة كلاس الجهاز
     function detectDevice() {
       const ua = navigator.userAgent;
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
