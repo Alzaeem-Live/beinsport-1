@@ -1,94 +1,716 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar" prefix="og: https://ogp.me/ns#">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>البث المباشر - ON Time Sports 2</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #121212;
-      color: #fff;
-      font-family: 'Cairo', sans-serif;
-    }
+    <meta charset="UTF-8" />
+    <link rel="profile" href="http://gmpg.org/xfn/11" />
+    <meta content='width=device-width,minimum-scale=1,initial-scale=1' name='viewport'/>
+    <link rel="canonical" href="https://dd.alkoora.live/albaplayer/on-time-sport-2/" />
+    <title>اون تايم سبورت 2 on time sport</title>
 
-    header {
-      background-color: #1f1f1f;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      border-bottom: 2px solid #e50914;
-    }
+    <style>
+        :root {
+            --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
+            --plyr-color-main: #9c88ff
+        }
 
-    .player-container {
-      position: relative;
-      padding-top: 56.25%; /* 16:9 */
-      margin: 20px;
-    }
+        body {
+            box-sizing: border-box;
+            background: #000;
+            font-family: sans-serif;
+            margin: 0;
+        }
 
-    .player-container iframe,
-    .player-container video {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+        * {
+            text-decoration: none
+        }
 
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    }
+        .albaplayer_videos_channel {
+            position: absolute;
+            z-index: 999;
+            left: 8px;
+            top: 6px;
+            right: 8px;
+            height: 0;
+        }
 
-    .controls button {
-      background-color: #e50914;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+        .albaplayer_videos_channel .button {
+            background: #9e1414;
+            cursor: pointer;
+            font-size: 14px;
+            float: left;
+            display: block;
+            border-radius: 2px;
+            height: 25px;
+            text-align: center;
+            line-height: 22px;
+            text-shadow: 0 1px 1px #000;
+            color: #fff;
+            padding: 0 10px;
+            font-family: sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 99;
+        }
 
-    .controls button:hover {
-      background-color: #ff2020;
-    }
+        .albaplayer_videos_channel .refresh {
+            float: right;
+        }
 
-    footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      background-color: #1f1f1f;
-      border-top: 1px solid #333;
-    }
-  </style>
-</head>
+        #albaplayer_share_channel {
+            position: absolute;
+            top: -10px;
+            z-index: 9;
+            left: -10px;
+            border-radius: 0;
+            background: rgba(0, 0, 0, .9);
+            right: -10px;
+            bottom: 0;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .share-channel {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            left: 0;
+            margin-top: -80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .share-channel textarea {
+            margin-top: 13px;
+            max-width: 98%;
+            width: 600px;
+            direction: ltr;
+            overflow: auto;
+            font-size: 14px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.26);
+            border: 0;
+            height: 54px;
+            color: #fff;
+        }
+
+        .custom-btn {
+            background: #552a86;
+            border: 0;
+            font-size: 16px;
+            font-family: arial;
+            padding: 5px 16px;
+            border-radius: 5px;
+            font-weight: 700;
+            margin-top: 6px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .albaplayer_site_name {
+            text-shadow: 2px 2px 2px #000;
+            z-index: 9;
+            bottom: 18%;
+            position: fixed;
+            width: 100%;
+            height: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 3vw;
+            display: none1; /* Typo from original, assume intended as display:none */
+        }
+
+        /* Many JW Player specific styles removed for simplicity as we're not using JW Player without its full JS */
+        #player {
+            width: 100%;
+            position: absolute;
+            height: 100% !important;
+            z-index: 9;
+            right: 0;
+            left: 0;
+        }
+        
+        iframe.cf {
+            position: absolute;
+            height: 100%;
+        }
+
+        .cf.videoif {
+            z-index: 99
+        }
+
+        iframe.videoif {
+            height: 100%;
+            position: absolute
+        }
+
+        video.post-video {
+            position: absolute;
+            height: 100%
+        }
+
+        .albaplayer_server-body {
+            box-sizing: border-box;
+            position: relative;
+            width: 100%;
+            background: #000;
+            height: calc(100vh - 60px); /* Adjusted to consider the height of the nav bar */
+            overflow: hidden;
+        }
+
+        .albaplayer_name {
+            display: flex;
+            clear: both;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            background: #000;
+            max-height: 50px; /* Reduced for better fit */
+            box-sizing: border-box;
+            padding: 0 2px;
+            margin: 0;
+            list-style: none;
+            justify-content: flex-end; /* Align channels to the right */
+        }
+
+        .albaplayer_name li {
+            text-align: center;
+            width: 100%;
+            margin: 4px 2px;
+            position: relative;
+            float: right;
+            z-index: 3;
+            flex: 1;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100px; /* Limit width of channel buttons */
+        }
+
+        .albaplayer_name a {
+            text-align: center;
+            background: #552a86;
+            font-size: 16px;
+            width: 100%;
+            position: relative;
+            cursor: pointer;
+            padding: 5px 5px 7px;
+            border: 0;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+            box-shadow: 0 0 0 #d6d6d6;
+            border-radius: 1px;
+            height: 43px;
+            overflow: hidden;
+            flex: 1;
+            box-sizing: border-box;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff !important;
+        }
+
+        .albaplayer_name a.active,
+        .albaplayer_name a:hover {
+            background: #9e1414;
+            transition: .3s all cubic-bezier(.68, -.55, .265, 1.55); /* Re-added cubic-bezier from original */
+            color: #fff !important;
+        }
+
+        .embed-responsive {
+            height: 100%;
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .embed-responsive::before {
+            display: block;
+            content: "";
+        }
+
+        .embed-responsive .embed-responsive-item,
+        .embed-responsive embed,
+        .embed-responsive iframe,
+        .embed-responsive object,
+        .embed-responsive video {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Ratio classes are mostly for fixed aspect ratios, might not be needed for full height */
+        .embed-responsive-21by9::before {
+            padding-top: 42.857143%
+        }
+
+        .embed-responsive-16by9::before {
+            padding-top: 56.25%
+        }
+
+        .embed-responsive-4by3::before {
+            padding-top: 75%
+        }
+
+        .embed-responsive-1by1::before {
+            padding-top: 100%
+        }
+
+        .albaplayer_share_title {
+            text-align: center;
+            color: #fff;
+            font-size: 21px;
+        }
+
+        .albaplayer_share_title * {
+            color: #fff
+        }
+
+        /* Simplified ad section for placeholder */
+        #albaAdsPlayer {
+            position: absolute;
+            width: 336px;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+        }
+
+        .mahimeta-close {
+            position: absolute;
+            top: -18px;
+            right: 5px;
+            color: #4c4c4c;
+            text-align: center;
+            font-weight: bold;
+            font-family: arial;
+            font-size: 14px;
+            cursor: pointer;
+            background: #fff;
+            padding: 0 5px;
+            height: 20px;
+        }
+
+        .albaAdscon {
+            overflow: hidden;
+            width: 100%
+        }
+
+        /* Plyr specific styles */
+        [data-player] {
+            height: 100% !important
+        }
+
+        .plyr--full-ui {
+            box-sizing: border-box;
+            height: 100%
+        }
+
+        .plyr__control--overlaid {
+            padding: 1.5rem !important
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width:500px) {
+            .jw-controls.jw-reset:before,
+            .albaplayer_site_name {
+                font-size: 4vw
+            }
+        }
+
+        @media screen and (max-width:640px) {
+            .albaplayer_name {
+                width: 100%;
+                direction: rtl;
+                text-align: center;
+                overflow-x: auto; /* Changed to x for horizontal scroll */
+                overflow-y: hidden; /* Ensure no vertical scroll */
+                margin: 0 auto;
+                justify-content: flex-start; /* For mobile, allow scrolling */
+            }
+
+            .albaplayer_name li {
+                display: inline-block;
+                vertical-align: middle;
+                background-image: none;
+                white-space: nowrap;
+                -moz-user-select: none;
+                cursor: pointer;
+                position: relative;
+                margin: 0 3px 0;
+                flex-shrink: 0; /* Prevent shrinking on small screens */
+            }
+
+            .albaplayer_name a {
+                font-size: 14px;
+                padding: 4px 8px 7px;
+                border-radius: 2px;
+                height: 30px;
+                margin-top: 4px;
+            }
+
+            .albaplayer_videos_channel {
+                left: 4px;
+                top: 6px;
+                right: 6px;
+            }
+        }
+
+        /* Telegram button styles */
+        #tme {
+            position: fixed;
+            z-index: 99999999;
+            bottom: 50px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #0088cc;
+            cursor: pointer;
+        }
+
+        #tme_message {
+            text-align: right;
+            position: absolute;
+            bottom: 62px;
+            right: -10px;
+            width: 250px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgb(0 0 0);
+            transition: opacity .5s ease-in;
+        }
+
+        #tme_message:after,
+        #tme_message:before {
+            content: '';
+            position: absolute;
+            bottom: -21px;
+            right: 23px;
+            border-style: solid;
+            height: 0;
+            width: 0;
+            border-width: 10px;
+            border-color: transparent;
+        }
+
+        #tme_message:after {
+            border-top-color: #fff;
+            bottom: -20px;
+        }
+
+        #tme svg {
+            margin-top: 13px;
+        }
+
+        #tme_message p {
+            letter-spacing: -.5px;
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #8e8e8e;
+            text-align: right;
+        }
+
+        .clossalert {
+            position: absolute;
+            left: -10px;
+            top: -10px;
+            border-radius: 50%;
+            cursor: pointer;
+            background: #fff;
+            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            border: solid 1px #d9d9d9;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tme_message a {
+            margin: 6px 6px 0 0;
+            color: #FFF;
+            background: #0088cc;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 2px 7px;
+            text-decoration: none;
+        }
+
+        /* Watermark/logo position styles */
+        .dplayer-logo,
+        [data-watermark-top-right],
+        .plyr__video-wrapper::before,
+        .jw-wrapper::before,
+        #player::before {
+            right: 10px !important;
+            top: 10px !important;
+            max-width: 80px !important;
+            left: auto !important;
+        }
+
+        /* RTL specific for Telegram button */
+        #tme.itisltr {
+            right: auto;
+            left: 45px;
+        }
+
+        #tme.itisltr #tme_message {
+            text-align: left;
+            right: auto;
+            left: -10px;
+        }
+
+        #tme.itisltr #tme_message:before,
+        #tme.itisltr #tme_message::after {
+            right: auto;
+            left: 23px;
+        }
+
+        #tme.itisltr #tme_message p {
+            text-align: left;
+        }
+
+        #tme.itisltr #tme_message a {
+            margin: 6px 0 0 6px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.xyz/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+    </head>
 <body>
 
-  <header>البث المباشر - ON Time Sports 2</header>
+    <ul class="albaplayer_name">
+        <li><a class="active" href="?serv=1" data-serv="1">بث1</a></li>
+        <li><a href="?serv=2" data-serv="2">بث2</a></li>
+        <li><a href="?serv=3" data-serv="3">بث3</a></li>
+        <li><a href="?serv=4" data-serv="4">EN</a></li>
+        <li><a href="?serv=5" data-serv="5">SP</a></li>
+    </ul>
 
-  <div class="player-container">
-    <!-- استبدل الرابط برابط البث المباشر الخاص بك -->
-    <video controls autoplay>
-      <source src="https://example.com/stream.m3u8" type="application/x-mpegURL">
-      متصفحك لا يدعم تشغيل الفيديو.
-    </video>
-  </div>
+    <div class="albaplayer_server-body">
+        <div class='video-con embed-responsive' id="video-player-container">
+            </div>
 
-  <div class="controls">
-    <button onclick="window.location.href='page1.html'">ON Time Sports 1</button>
-    <button onclick="window.location.href='page2.html'">ON Time Sports 2</button>
-    <button onclick="window.location.href='page3.html'">بي إن سبورت</button>
-  </div>
+        <div class='albaplayer_videos_channel'>
+            <a class='button refresh' href='javascript:window.location.reload()'>تحديث</a>
+            <div id='showshare' style='display: block;' title='مشاركة'>
+                <span onclick='document.getElementById("showother").style.display="block";document.getElementById("showshare").style.display="none"'>
+                    <div class='button share'>مشاركة</div>
+                </span>
+            </div>
+            <div class='showother' id='showother' style='display: none;'>
+                <span onclick='document.getElementById("showother").style.display="none";document.getElementById("showshare").style.display="block"' title='اغلاق'>
+                    <div class='button close'>اغلاق</div>
+                </span>
+                <div id='albaplayer_share_channel'>
+                    <div class='share-channel'>
+                        <div class="albaplayer_share_title">كود التضمين</div>
+                        <textarea id='albaplayer_player_share' onclick='this.select();' onfocus='this.select();'>
+                            <iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='https://dd.alkoora.live/albaplayer/on-time-sport-2/' width='100%'></iframe>
+                        </textarea>
+                        <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <footer>
-    جميع الحقوق محفوظة &copy; 2025
-  </footer>
+    <div id='tme'>
+        <div id='tme_message'>
+            <button class='clossalert' onclick='document.getElementById("tme").style.display="none";'>X</button>
+            <strong>اشترك في موقعنا مجانا</strong>
+            <p>خدمة الكورة لايف المجانية لمشاهدة مباريات اليوم بث مباشر بدون تقطيع على التليجرام<a href='https://t.me/your_telegram_channel' rel='nofollow' role='button' target='_blank'>اضغط للاشتراك</a></p>
+        </div>
+        <svg fill='rgb(255, 255, 255)' height='25' viewBox='0 0 33 33' width='25'>
+            <path d='M27.1566711,3.01477064 C27.5924362,2.97926122 28.0620472,2.99321135 28.4483128,3.22233167 C28.7931173,3.42270627 28.9928078,3.82091907 29,4.2127909 C28.9860386,4.54505764 28.9610773,4.87647891 28.9314622,6.00747745 C28.7884635,6.88741129 28.4986585,8.55001316 28.2706222,10.2198015 C28.2126612,10.6691647 28.1411619,11.1164144 28.0730471,11.5645094 C27.7392425,13.7538344 27.3783613,15.938932 27.0136724,18.123607 C26.61683,20.4689197 26.2166029,22.8142325 25.8146836,25.1586998 C25.6979155,25.8283061 26.0393044,26.4133661 24.63981,26.7253417 C23.9823546,27.0791677 23.1370548,27.107068 22.4893301,26.7156189 C19.3458979,24.5871672 16.1800428,22.4904204 13.067495,20.3167365 C12.7709209,20.0707069 12.6004224,19.6864443 12.5902687,19.3034498 C12.5796919,18.9310236 12.7057676,18.5687429 12.8788045,18.2436626 C13.1246099,17.7875356 13.4774527,17.3982002 13.8717567,17.0655107 C15.3580121,15.608779 16.9293051,14.2433571 18.4578677,12.8318576 C19.4609737,11.9124172 20.4378492,10.9633857 21.3648021,9.96658545 C21.5188007,9.82581596 21.5653387,9.6110685 21.5996076,9.41407576 C21.6211843,9.29444282 21.5839539,9.13169131 21.4439167,9.10928655 C21.1934575,9.07884991 20.9607674,9.20820566 20.7390772,9.30670203 C20.1484673,9.61064577 19.5976263,9.98603109 19.0544006,10.3669119 C17.9654108,11.1202189 16.8844593,11.8857852 15.7997002,12.6450104 C13.566298,14.2036204 11.3159729,15.7470121 8.94549505,17.0925655 C8.29015502,17.4282141 7.54046972,17.5486925 6.80939963,17.5051512 C5.872293,17.4540007 4.96353226,17.1931756 4.07338673,16.9116366 C3.62916011,16.7700216 3.17774125,16.6470068 2.74789911,16.4643869 C1.99863688,16.1566386 1.21933647,15.9017317 0.527189087,15.4730822 C0.307614215,15.3238581 0.0643472572,15.1437746 0.00554011426,14.8694221 C-0.0405748395,14.567592 0.209884359,14.3279034 0.434113033,14.1693792 C0.977338727,13.8624763 1.53283354,13.5792464 2.08875142,13.2964392 C4.04419469,12.3220438 6.04532984,11.444031 8.04731114,10.5706684 C8.82872691,10.2312152 9.60464274,9.87950282 10.3919815,9.55442252 C12.9194195,8.49590356 15.4460112,7.43569368 17.9861414,6.4080341 C20.3625422,5.44336147 22.7461354,4.49602082 25.1415745,3.57953955 C25.7892992,3.31871439 26.4543699,3.07310755 27.1566711,3.01477064 Z'></path>
+        </svg>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const channelLinks = document.querySelectorAll('.albaplayer_name a');
+            const videoContainer = document.getElementById('video-player-container');
+            const shareEmbedCodeTextarea = document.getElementById('albaplayer_player_share');
+
+            // Define your stream sources. REPLACE THESE WITH YOUR ACTUAL LIVE STREAM URLs!
+            // Example: HLS (.m3u8), or an iframe embed URL.
+            const streamSources = {
+                1: { // بث1
+                    mobile: 'https://cdn.example.com/stream1-mobile.m3u8', // HLS for Clappr
+                    desktop: 'https://player.example.com/embed/stream1.html' // Iframe for desktop
+                },
+                2: { // بث2
+                    mobile: 'https://cdn.example.com/stream2-mobile.m3u8',
+                    desktop: 'https://player.example.com/embed/stream2.html'
+                },
+                3: { // بث3
+                    mobile: 'https://cdn.example.com/stream3-mobile.m3u8',
+                    desktop: 'https://player.example.com/embed/stream3.html'
+                },
+                4: { // EN
+                    mobile: 'https://cdn.example.com/stream-en-mobile.m3u8',
+                    desktop: 'https://player.example.com/embed/stream-en.html'
+                },
+                5: { // SP
+                    mobile: 'https://cdn.example.com/stream-sp-mobile.m3u8',
+                    desktop: 'https://player.example.com/embed/stream-sp.html'
+                },
+            };
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            function isMobileDevice() {
+                return /iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase());
+            }
+
+            function loadPlayer(servId) {
+                const isMobile = isMobileDevice();
+                const stream = streamSources[servId];
+
+                if (!stream) {
+                    videoContainer.innerHTML = '<p style="color:white; text-align:center;">لا يوجد بث متاح لهذا الخادم.</p>';
+                    return;
+                }
+
+                videoContainer.innerHTML = ''; // Clear previous player
+
+                let playerHtml = '';
+                let embedUrl = window.location.origin + window.location.pathname + '?serv=' + servId; // For share link
+
+                if (isMobile) {
+                    // Mobile: Use Clappr for HLS streams
+                    // The actual Clappr initialization is a bit more involved,
+                    // as it needs to be created dynamically in the HTML and then initialized.
+                    // For simplicity and matching your original code's pattern, we'll embed the script.
+                    // Note: This pattern of document.write with script tags is generally discouraged
+                    // for dynamic content due to potential issues, but it mimics the provided code.
+                    playerHtml = `
+                        <div id="player"></div>
+                        <script>
+                            var player = new Clappr.Player({
+                                source: "${stream.mobile}",
+                                plugins: [LevelSelector],
+                                parentId: "#player",
+                                width: "100%",
+                                height: "100%",
+                                hideMediaControl: true,
+                                autoPlay: true
+                            });
+                        </script>
+                    `;
+                    // Update the share link for mobile (Clappr example in provided code didn't change share link src)
+                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${embedUrl}' width='100%'></iframe>`;
+
+                } else {
+                    // Desktop: Use iframe (or you could load Plyr/Video.js here)
+                    playerHtml = `
+                        <iframe
+                            allowfullscreen=''
+                            class='cf'
+                            frameborder='0'
+                            height='100%'
+                            name='search_iframe'
+                            rel='nofollow'
+                            sandbox='allow-forms allow-same-origin allow-scripts'
+                            scrolling='no'
+                            src='${stream.desktop}'
+                            width='100%'
+                        ></iframe>
+                    `;
+                    // Update the share link for desktop
+                    shareEmbedCodeTextarea.value = `<iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='${embedUrl}' width='100%'></iframe>`;
+                }
+
+                // Append the player HTML. Using insertAdjacentHTML for dynamic script execution
+                videoContainer.insertAdjacentHTML('beforeend', playerHtml);
+            }
+
+            // Handle channel clicks
+            channelLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default link behavior (page refresh)
+
+                    // Update active class
+                    channelLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const servId = this.dataset.serv; // Get the service ID from data-serv attribute
+                    
+                    // Update the URL in the browser without reloading the page
+                    const newUrl = `${window.location.pathname}?serv=${servId}`;
+                    history.pushState({ serv: servId }, '', newUrl);
+
+                    loadPlayer(servId);
+                });
+            });
+
+            // Initial load: Check for 'serv' parameter in URL
+            const initialServ = getQueryParam('serv');
+            if (initialServ) {
+                const activeLink = document.querySelector(`.albaplayer_name a[data-serv="${initialServ}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                    loadPlayer(initialServ);
+                } else {
+                    // Fallback to default if invalid serv is provided
+                    document.querySelector('.albaplayer_name a[data-serv="1"]').click();
+                }
+            } else {
+                // If no 'serv' param, default to بث1 (serv=1)
+                document.querySelector('.albaplayer_name a[data-serv="1"]').click();
+            }
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function(event) {
+                const serv = getQueryParam('serv');
+                if (serv) {
+                    const activeLink = document.querySelector(`.albaplayer_name a[data-serv="${serv}"]`);
+                    if (activeLink) {
+                        channelLinks.forEach(l => l.classList.remove('active'));
+                        activeLink.classList.add('active');
+                        loadPlayer(serv);
+                    }
+                } else {
+                    // If going back to initial state (no serv param), load default
+                    document.querySelector('.albaplayer_name a[data-serv="1"]').click();
+                }
+            });
+
+            // Telegram message display logic (copied from your code)
+            const tmeMessage = document.getElementById('tme_message');
+            const tmeButton = document.getElementById('tme');
+            if (tmeMessage && tmeButton) {
+                // You might want to add some logic to hide/show this on page load based on cookie or local storage
+                // For now, it will be visible by default as per the original HTML structure
+                tmeButton.addEventListener('click', function() {
+                    tmeMessage.style.display = (tmeMessage.style.display === 'none' || tmeMessage.style.display === '') ? 'block' : 'none';
+                });
+                document.querySelector('.clossalert').addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent click from bubbling to the parent #tme
+                    tmeMessage.style.display = 'none';
+                });
+            }
+
+        });
+    </script>
 </body>
 </html>
