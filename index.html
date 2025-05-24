@@ -80,7 +80,7 @@
       top: 50% !important;
       left: 50% !important;
       transform: translate(-50%, -50%) !important;
-      font-size: 5em !important;
+      font-size: 2.5em !important;
       width: 80px !important;
       height: 80px !important;
       border: none;
@@ -132,7 +132,6 @@
     <li><a href="#" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="active">بث 1</a></li>
     <li><a href="#" data-stream="https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8">بث 2</a></li>
     <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
-    <li><a href="#" data-stream="https://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8">بث 3</a></li>
   </ul>
 
   <div class="albaplayer_server-body">
@@ -159,6 +158,21 @@
       });
       player.play();
     }
+
+    // تحديث ظهور زر التشغيل عند play و pause
+    player.on('play', function() {
+      const bigPlayButton = document.querySelector('.vjs-big-play-button');
+      if (bigPlayButton) {
+        bigPlayButton.style.display = 'none';
+      }
+    });
+
+    player.on('pause', function() {
+      const bigPlayButton = document.querySelector('.vjs-big-play-button');
+      if (bigPlayButton) {
+        bigPlayButton.style.display = '';
+      }
+    });
 
     // ربط الأزرار بتغيير البث
     document.querySelectorAll(".albaplayer_name a").forEach(btn => {
