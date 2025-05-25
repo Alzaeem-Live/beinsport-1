@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://vjs.zencdn.net/7.20.3/video-js.css" />
   <style>
     :root {
-      --plyr-video-control-background-hover: rgba(156, 136, 255, 0.9);
+      --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
       --plyr-color-main: #9c88ff;
     }
 
@@ -56,12 +56,12 @@
       color: #fff !important;
       width: 100%;
       text-decoration: none;
-      transition: background-color 0.3s ease;
     }
 
     .albaplayer_name a.active,
     .albaplayer_name a:hover {
       background: #9e1414;
+      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
     }
 
     #player-container {
@@ -73,10 +73,9 @@
       width: 100% !important;
       height: 100% !important;
       background: #000;
-      position: relative;
     }
 
-    /* زر التشغيل الكبير في المنتصف */
+    /* زر التشغيل في المنتصف وبشكل أنيق */
     .video-js .vjs-big-play-button {
       position: absolute;
       top: 50% !important;
@@ -94,7 +93,6 @@
       justify-content: center;
       transition: background-color 0.3s ease;
       z-index: 10;
-      cursor: pointer;
     }
 
     .video-js .vjs-big-play-button:hover {
@@ -128,7 +126,6 @@
       font-weight: 700;
       position: relative;
       z-index: 99;
-      user-select: none;
     }
 
     .albaplayer_videos_channel .refresh {
@@ -141,7 +138,7 @@
       z-index: 9;
       left: -10px;
       border-radius: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0,0,0,.9);
       right: -10px;
       bottom: 0;
       height: 100vh;
@@ -157,9 +154,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #fff;
-      font-weight: 600;
-      font-size: 16px;
     }
 
     .share-channel textarea {
@@ -170,31 +164,122 @@
       overflow: auto;
       font-size: 14px;
       padding: 5px;
-      background: rgba(255, 255, 255, 0.26);
+      background: rgba(255,255,255,0.26);
       border: 0;
       height: 54px;
       color: #fff;
-      resize: none;
-      border-radius: 4px;
     }
 
     .custom-btn {
       background: #552a86;
       border: 0;
       font-size: 16px;
-      font-family: Arial, sans-serif;
+      font-family: arial;
       padding: 5px 16px;
       border-radius: 5px;
       font-weight: 700;
       margin-top: 6px;
       color: #fff;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
     }
 
-    .custom-btn:hover {
-      background-color: #7b5ed9;
+    /* زر التليجرام */
+    #tme {
+      position: fixed;
+      z-index: 99999999;
+      bottom: 50px;
+      right: 25px;
+      width: 48px;
+      height: 48px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: #0088cc;
+      cursor: pointer;
+    }
+
+    #tme_message {
+      text-align: right;
+      position: absolute;
+      bottom: 62px;
+      right: -10px;
+      width: 250px;
+      padding: 10px;
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgb(0 0 0);
+      transition: opacity .5s ease-in;
+    }
+
+    #tme_message:after,
+    #tme_message:before {
+      content: '';
+      position: absolute;
+      bottom: -21px;
+      right: 23px;
+      border-style: solid;
+      height: 0;
+      width: 0;
+      border-width: 10px;
+      border-color: transparent;
+    }
+
+    #tme_message:after {
+      border-top-color: #fff;
+      bottom: -20px;
+    }
+
+    #tme svg {
+      margin-top: 13px;
+    }
+
+    #tme_message p {
+      letter-spacing: -.5px;
+      margin: 5px 0 0;
+      font-size: 12px;
+      color: #8e8e8e;
+      text-align: right;
+    }
+
+    .clossalert {
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: #fff;
+      font-size: 10px;
+      width: 20px;
+      height: 20px;
+      border: solid 1px #d9d9d9;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #tme_message a {
+      margin: 6px 6px 0 0;
+      color: #FFF;
+      background: #0088cc;
+      border-radius: 5px;
+      display: inline-block;
+      padding: 2px 7px;
+      text-decoration: none;
+    }
+
+    /* العلامة المائية */
+    .watermark {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 99;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #000;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px 10px;
+      border-radius: 5px;
     }
 
     /* موبايل */
@@ -228,9 +313,15 @@
         right: 6px;
       }
 
-      .share-channel textarea {
-        width: 90%;
-        max-width: none;
+      #tme_message {
+        width: 200px;
+        right: -5px;
+      }
+
+      .watermark {
+        font-size: 12px;
+        bottom: 10px;
+        left: 10px;
       }
     }
   </style>
@@ -253,47 +344,44 @@
         preload="auto"
         data-setup="{}"
       ></video>
+      <!-- العلامة المائية -->
+      <div class="watermark">اون تايم سبورت</div>
     </div>
-
-    <div class="albaplayer_videos_channel">
-      <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
-      <div id="showshare" style="display: block;" title="مشاركة">
-        <span onclick='
-          document.getElementById("showother").style.display = "block";
-          document.getElementById("showshare").style.display = "none";
-        '>
-          <div class="button share">مشاركة</div>
+    
+    <div class='albaplayer_videos_channel'>
+      <a class='button refresh' href='javascript:window.location.reload()'>تحديث</a>
+      <div id='showshare' style='display: block;' title='مشاركة'>
+        <span href='javascript:void(0)' onclick='document.getElementById("showother").style.display="block";document.getElementById("showshare").style.display="none"'>
+          <div class='button share'>مشاركة</div>
         </span>
       </div>
-      <div class="showother" id="showother" style="display: none;">
-        <span onclick='
-          document.getElementById("showother").style.display = "none";
-          document.getElementById("showshare").style.display = "block";
-        ' title="اغلاق">
-          <div class="button close">اغلاق</div>
+      <div class='showother' id='showother' style='display: none;'>
+        <span href='javascript:void(0)' onclick='document.getElementById("showother").style.display="none";document.getElementById("showshare").style.display="block"' title='اغلاق'>
+          <div class='button close'>اغلاق</div>
         </span>
-        <div id="albaplayer_share_channel">
-          <div class="share-channel">
+        <div id='albaplayer_share_channel'>
+          <div class='share-channel'>
             <div class="albaplayer_share_title">كود التضمين</div>
-            <textarea
-              id="albaplayer_player_share"
-              onclick="this.select();"
-              onfocus="this.select();"
-              readonly
-            ><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-1/" width="100%"></iframe></textarea>
-            <button
-              class="custom-btn"
-              onclick="
-                const textarea = document.getElementById('albaplayer_player_share');
-                textarea.select();
-                navigator.clipboard.writeText(textarea.value);
-                alert('تم نسخ كود التضمين');
-              "
-            >انقر للنسخ</button>
+            <textarea id='albaplayer_player_share' onclick='this.select();' onfocus='this.select();'>
+              <iframe allowfullscreen='true' frameborder='0' height='500px' scrolling='1' src='https://dd.alkoora.live/albaplayer/on-time-sport-1/' width='100%'></iframe>
+            </textarea>
+            <button class="custom-btn" onclick="document.querySelector('#albaplayer_player_share').select();document.execCommand('copy');">انقر للنسخ</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- زر التليجرام -->
+  <div id='tme'>
+    <div id='tme_message'>
+      <button class='clossalert' onclick='document.getElementById("tme").style.display="none";'>X</button>
+      <strong>اشترك في موقعنا مجانا</strong>
+      <p>خدمة الكورة لايف المجانية لمشاهدة مباريات اليوم بث مباشر بدون تقطيع على التليجرام<a href='https://www.youtube.com/@alkoooralive' rel='nofollow' role='button' target='_blank'>اضغط للاشتراك</a></p>
+    </div>
+    <svg fill='rgb(255, 255, 255)' height='25' viewBox='0 0 33 33' width='25'>
+      <path d='M27.1566711,3.01477064 C27.5924362,2.97926122 28.0620472,2.99321135 28.4483128,3.22233167 C28.7931173,3.42270627 28.9928078,3.82091907 29,4.2127909 C28.9860386,4.54505764 28.9610773,4.87647891 28.9314622,6.00747745 C28.7884635,6.88741129 28.4986585,8.55001316 28.2706222,10.2198015 C28.2126612,10.6691647 28.1411619,11.1164144 28.0730471,11.5645094 C27.7392425,13.7538344 27.3783613,15.938932 27.0136724,18.123607 C26.61683,20.4689197 26.2166029,22.8142325 25.8146836,25.1586998 C25.6979155,25.8283061 26.0393044,26.4133661 24.63981,26.7253417 C23.9823546,27.0791677 23.1370548,27.107068 22.4893301,26.7156189 C19.3458979,24.5871672 16.1800428,22.4904204 13.067495,20.3167365 C12.7709209,20.0707069 12.6004224,19.6864443 12.5902687,19.3034498 C12.5796919,18.9310236 12.7057676,18.5687429 12.8788045,18.2436626 C13.1246099,17.7875356 13.4774527,17.3982002 13.8717567,17.0655107 C15.3580121,15.608779 16.9293051,14.2433571 18.4578677,12.8318576 C19.4609737,11.9124172 20.4378492,10.9633857 21.3648021,9.96658545 C21.5188007,9.82581596 21.5653387,9.6110685 21.5996076,9.41407576 C21.6211843,9.29444282 21.5839539,9.13169131 21.4439167,9.10928655 C21.1934575,9.07884991 20.9607674,9.20820566 20.7390772,9.30670203 C20.1484673,9.61064577 19.5976263,9.98603109 19.0544006,10.3669119 C17.9654108,11.1202189 16.8844593,11.8857852 15.7997002,12.6450104 C13.566298,14.2036204 11.3159729,15.7470121 8.94549505,17.0925655 C8.29015502,17.4282141 7.54046972,17.5486925 6.80939963,17.5051512 C5.872293,17.4540007 4.96353226,17.1931756 4.07338673,16.9116366 C3.62916011,16.7700216 3.17774125,16.6470068 2.74789911,16.4643869 C1.99863688,16.1566386 1.21933647,15.9017317 0.527189087,15.4730822 C0.307614215,15.3238581 0.0643472572,15.1437746 0.00554011426,14.8694221 C-0.0405748395,14.567592 0.209884359,14.3279034 0.434113033,14.1693792 C0.977338727,13.8624763 1.53283354,13.5792464 2.08875142,13.2964392 C4.04419469,12.3220438 6.04532984,11.444031 8.04731114,10.5706684 C8.82872691,10.2312152 9.60464274,9.87950282 10.3919815,9.55442252 C12.9194195,8.49590356 15.4460112,7.43569368 17.9861414,6.4080341 C20.3625422,5.44336147 22.7461354,4.49602082 25.1415745,3.57953955 C25.7892992,3.31871439 26.4543699,3.07310755 27.1566711,3.01477064 Z'></path>
+    </svg>
   </div>
 
   <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
@@ -309,44 +397,49 @@
       player.play();
     }
 
-    // إخفاء زر التشغيل الكبير عند التشغيل وإظهاره عند الإيقاف المؤقت
-    player.on('play', () => {
+    // تحديث ظهور زر التشغيل عند play و pause
+    player.on('play', function() {
       const bigPlayButton = document.querySelector('.vjs-big-play-button');
-      if (bigPlayButton) bigPlayButton.style.display = 'none';
+      if (bigPlayButton) {
+        bigPlayButton.style.display = 'none';
+      }
     });
 
-    player.on('pause', () => {
+    player.on('pause', function() {
       const bigPlayButton = document.querySelector('.vjs-big-play-button');
-      if (bigPlayButton) bigPlayButton.style.display = 'flex';
+      if (bigPlayButton) {
+        bigPlayButton.style.display = '';
+      }
     });
 
-    // ربط أزرار تغيير البث
-    document.querySelectorAll('.albaplayer_name a').forEach(btn => {
-      btn.addEventListener('click', e => {
+    // ربط الأزرار بتغيير البث
+    document.querySelectorAll(".albaplayer_name a").forEach(btn => {
+      btn.addEventListener("click", e => {
         e.preventDefault();
-        document.querySelectorAll('.albaplayer_name a').forEach(a => a.classList.remove('active'));
-        btn.classList.add('active');
-        loadStream(btn.getAttribute('data-stream'));
+        document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
+        btn.classList.add("active");
+        loadStream(btn.getAttribute("data-stream"));
       });
     });
 
-    // تشغيل أول بث تلقائيًا عند تحميل الصفحة
+    // تشغيل أول بث تلقائيًا
     window.addEventListener('DOMContentLoaded', () => {
-      const firstBtn = document.querySelector('.albaplayer_name a.active');
+      const firstBtn = document.querySelector(".albaplayer_name a.active");
       if (firstBtn) {
-        loadStream(firstBtn.getAttribute('data-stream'));
+        firstBtn.click();
       }
     });
 
-    // إضافة كلاس للجهاز (موبايل أو ديسكتوب)
+    // إضافة كلاس الجهاز
     function detectDevice() {
       const ua = navigator.userAgent;
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
-        document.body.classList.add('mobile-device');
+        document.body.classList.add("mobile-device");
       } else {
-        document.body.classList.add('desktop-device');
+        document.body.classList.add("desktop-device");
       }
     }
+
     detectDevice();
   </script>
 </body>
