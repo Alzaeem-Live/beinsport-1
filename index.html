@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://vjs.zencdn.net/7.20.3/video-js.css" />
   <style>
     :root {
-      --plyr-video-control-background-hover: rgba(156, 136, 255, .9);
+      --plyr-video-control-background-hover: rgba(156, 136, 255, 0.9);
       --plyr-color-main: #9c88ff;
     }
 
@@ -56,12 +56,12 @@
       color: #fff !important;
       width: 100%;
       text-decoration: none;
+      transition: background-color 0.3s ease;
     }
 
     .albaplayer_name a.active,
     .albaplayer_name a:hover {
       background: #9e1414;
-      transition: .3s all cubic-bezier(.68, -.55, .265, 1.55);
     }
 
     #player-container {
@@ -73,9 +73,10 @@
       width: 100% !important;
       height: 100% !important;
       background: #000;
+      position: relative;
     }
 
-    /* زر التشغيل في المنتصف وبشكل أنيق */
+    /* زر التشغيل الكبير في المنتصف */
     .video-js .vjs-big-play-button {
       position: absolute;
       top: 50% !important;
@@ -93,10 +94,107 @@
       justify-content: center;
       transition: background-color 0.3s ease;
       z-index: 10;
+      cursor: pointer;
     }
 
     .video-js .vjs-big-play-button:hover {
       background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* أزرار التحكم */
+    .albaplayer_videos_channel {
+      position: absolute;
+      z-index: 999;
+      left: 8px;
+      top: 6px;
+      right: 8px;
+      height: 0;
+    }
+
+    .albaplayer_videos_channel .button {
+      background: #9e1414;
+      cursor: pointer;
+      font-size: 14px;
+      float: left;
+      display: block;
+      border-radius: 2px;
+      height: 25px;
+      text-align: center;
+      line-height: 22px;
+      text-shadow: 0 1px 1px #000;
+      color: #fff;
+      padding: 0 10px;
+      font-family: sans-serif;
+      font-weight: 700;
+      position: relative;
+      z-index: 99;
+      user-select: none;
+    }
+
+    .albaplayer_videos_channel .refresh {
+      float: right;
+    }
+
+    #albaplayer_share_channel {
+      position: absolute;
+      top: -10px;
+      z-index: 9;
+      left: -10px;
+      border-radius: 0;
+      background: rgba(0, 0, 0, 0.9);
+      right: -10px;
+      bottom: 0;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .share-channel {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      margin-top: -80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .share-channel textarea {
+      margin-top: 13px;
+      max-width: 98%;
+      width: 600px;
+      direction: ltr;
+      overflow: auto;
+      font-size: 14px;
+      padding: 5px;
+      background: rgba(255, 255, 255, 0.26);
+      border: 0;
+      height: 54px;
+      color: #fff;
+      resize: none;
+      border-radius: 4px;
+    }
+
+    .custom-btn {
+      background: #552a86;
+      border: 0;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      padding: 5px 16px;
+      border-radius: 5px;
+      font-weight: 700;
+      margin-top: 6px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .custom-btn:hover {
+      background-color: #7b5ed9;
     }
 
     /* موبايل */
@@ -123,6 +221,17 @@
       .video-js {
         height: 100% !important;
       }
+
+      .albaplayer_videos_channel {
+        left: 4px;
+        top: 6px;
+        right: 6px;
+      }
+
+      .share-channel textarea {
+        width: 90%;
+        max-width: none;
+      }
     }
   </style>
 </head>
@@ -145,6 +254,46 @@
         data-setup="{}"
       ></video>
     </div>
+
+    <div class="albaplayer_videos_channel">
+      <a class="button refresh" href="javascript:window.location.reload()">تحديث</a>
+      <div id="showshare" style="display: block;" title="مشاركة">
+        <span onclick='
+          document.getElementById("showother").style.display = "block";
+          document.getElementById("showshare").style.display = "none";
+        '>
+          <div class="button share">مشاركة</div>
+        </span>
+      </div>
+      <div class="showother" id="showother" style="display: none;">
+        <span onclick='
+          document.getElementById("showother").style.display = "none";
+          document.getElementById("showshare").style.display = "block";
+        ' title="اغلاق">
+          <div class="button close">اغلاق</div>
+        </span>
+        <div id="albaplayer_share_channel">
+          <div class="share-channel">
+            <div class="albaplayer_share_title">كود التضمين</div>
+            <textarea
+              id="albaplayer_player_share"
+              onclick="this.select();"
+              onfocus="this.select();"
+              readonly
+            ><iframe allowfullscreen="true" frameborder="0" height="500px" scrolling="1" src="https://dd.alkoora.live/albaplayer/on-time-sport-1/" width="100%"></iframe></textarea>
+            <button
+              class="custom-btn"
+              onclick="
+                const textarea = document.getElementById('albaplayer_player_share');
+                textarea.select();
+                navigator.clipboard.writeText(textarea.value);
+                alert('تم نسخ كود التضمين');
+              "
+            >انقر للنسخ</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
@@ -160,49 +309,44 @@
       player.play();
     }
 
-    // تحديث ظهور زر التشغيل عند play و pause
-    player.on('play', function() {
+    // إخفاء زر التشغيل الكبير عند التشغيل وإظهاره عند الإيقاف المؤقت
+    player.on('play', () => {
       const bigPlayButton = document.querySelector('.vjs-big-play-button');
-      if (bigPlayButton) {
-        bigPlayButton.style.display = 'none';
-      }
+      if (bigPlayButton) bigPlayButton.style.display = 'none';
     });
 
-    player.on('pause', function() {
+    player.on('pause', () => {
       const bigPlayButton = document.querySelector('.vjs-big-play-button');
-      if (bigPlayButton) {
-        bigPlayButton.style.display = '';
-      }
+      if (bigPlayButton) bigPlayButton.style.display = 'flex';
     });
 
-    // ربط الأزرار بتغيير البث
-    document.querySelectorAll(".albaplayer_name a").forEach(btn => {
-      btn.addEventListener("click", e => {
+    // ربط أزرار تغيير البث
+    document.querySelectorAll('.albaplayer_name a').forEach(btn => {
+      btn.addEventListener('click', e => {
         e.preventDefault();
-        document.querySelectorAll(".albaplayer_name a").forEach(a => a.classList.remove("active"));
-        btn.classList.add("active");
-        loadStream(btn.getAttribute("data-stream"));
+        document.querySelectorAll('.albaplayer_name a').forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
+        loadStream(btn.getAttribute('data-stream'));
       });
     });
 
-    // تشغيل أول بث تلقائيًا
+    // تشغيل أول بث تلقائيًا عند تحميل الصفحة
     window.addEventListener('DOMContentLoaded', () => {
-      const firstBtn = document.querySelector(".albaplayer_name a.active");
+      const firstBtn = document.querySelector('.albaplayer_name a.active');
       if (firstBtn) {
-        firstBtn.click();
+        loadStream(firstBtn.getAttribute('data-stream'));
       }
     });
 
-    // إضافة كلاس الجهاز
+    // إضافة كلاس للجهاز (موبايل أو ديسكتوب)
     function detectDevice() {
       const ua = navigator.userAgent;
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
-        document.body.classList.add("mobile-device");
+        document.body.classList.add('mobile-device');
       } else {
-        document.body.classList.add("desktop-device");
+        document.body.classList.add('desktop-device');
       }
     }
-
     detectDevice();
   </script>
 </body>
